@@ -1,0 +1,23 @@
+.smallTile {
+    width: 150px !important;
+    height: 100px !important;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  }
+  
+  .smallTile .sapMGTContent {
+    padding: 0.25rem !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .smallTile .sapMNC {
+    font-size: 1.25rem !important;
+  }
+  
+  .smallTile .sapMGTSubHdr,
+  .smallTile .sapMGTHeader {
+    font-size: 0.75rem !important;
+  }
+  
