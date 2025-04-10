@@ -13,9 +13,9 @@ sap.ui.define([
     return Controller.extend("com.tableentry.tablestructure.controller.Table_Entry", {
         onInit: function () {
             const oData = {
-                pendingCount: 5,
-                approvedCount: 1,
-                rejectedCount: 1,
+                pendingCount: 2,
+                approvedCount: 14,
+                rejectedCount: 14,
                 attachmentCount: 0,
                 requests: [
                     {
@@ -27,46 +27,6 @@ sap.ui.define([
                         referenceNo: "10211594",
                         level1: "Submitted",
                         level2: "-"
-                    },
-                    {
-                        createdBy: "Ankit",
-                        createdOn: "7-APR-2025",
-                        status: "Pending",
-                        modifiedOn: "7-APR-2025",
-                        creatorComments: "Creator Comments",
-                        referenceNo: "10211594",
-                        level1: "Submitted",
-                        level2: "-"
-                    },
-                    {
-                        createdBy: "Ankit",
-                        createdOn: "7-APR-2025",
-                        status: "Pending",
-                        modifiedOn: "7-APR-2025",
-                        creatorComments: "Creator Comments",
-                        referenceNo: "10211594",
-                        level1: "Submitted",
-                        level2: "-"
-                    },
-                    {
-                        createdBy: "Ankit",
-                        createdOn: "7-APR-2025",
-                        status: "Pending",
-                        modifiedOn: "7-APR-2025",
-                        creatorComments: "Creator Comments",
-                        referenceNo: "10211594",
-                        level1: "Submitted",
-                        level2: "Pending"
-                    },
-                    {
-                        createdBy: "Ankit",
-                        createdOn: "7-APR-2025",
-                        status: "Pending",
-                        modifiedOn: "7-APR-2025",
-                        creatorComments: "Creator Comments",
-                        referenceNo: "10211594",
-                        level1: "Submitted",
-                        level2: "Pending"
                     },
                     {
                         createdBy: "Nadeem",
@@ -97,7 +57,7 @@ sap.ui.define([
                     referenceNo: ""
                 },
                 attachments: [],
-                originalRequests: [] // To store original data for reset
+                originalRequests: []
             };
             // Store original requests
             oData.originalRequests = [...oData.requests];
@@ -121,23 +81,17 @@ sap.ui.define([
         onApplyFilter: function () {
             const oModel = this.getView().getModel();
             const oFilter = oModel.getProperty("/filter");
-            let aFilteredRequests = [...oModel.getProperty("/originalRequests")];
+            const aAllRequests = oModel.getProperty("/originalRequests");
+            
+            let aFilteredRequests = [...aAllRequests];
 
-            // Apply filters to match the image (e.g., no specific filter applied yet, showing all data)
             if (oFilter.type) aFilteredRequests = aFilteredRequests.filter(item => item.status === oFilter.type);
             if (oFilter.createdBy) aFilteredRequests = aFilteredRequests.filter(item => item.createdBy === oFilter.createdBy);
             if (oFilter.createdOn) aFilteredRequests = aFilteredRequests.filter(item => item.createdOn === oFilter.createdOn);
             if (oFilter.status) aFilteredRequests = aFilteredRequests.filter(item => item.status === oFilter.status);
             if (oFilter.referenceNo) aFilteredRequests = aFilteredRequests.filter(item => item.referenceNo === oFilter.referenceNo);
 
-            // Update the model with filtered data
             oModel.setProperty("/requests", aFilteredRequests);
-
-            // Update tile counts based on filtered data
-            oModel.setProperty("/pendingCount", aFilteredRequests.filter(item => item.status === "Pending").length);
-            oModel.setProperty("/approvedCount", aFilteredRequests.filter(item => item.status === "Approved").length);
-            oModel.setProperty("/rejectedCount", aFilteredRequests.filter(item => item.status === "Rejected").length);
-
             this.getView().byId("filterDialog").close();
         },
 
@@ -154,17 +108,12 @@ sap.ui.define([
             this.getView().byId("filterDialog").close();
         },
 
-        onFilterChange: function () {
-            // Enable/Disable Apply button based on filter changes if needed
-        },
-
         onCreatePress: function () {
             this.getView().byId("uploadDialog").open();
         },
 
         onFileChange: function(oEvent) {
-            const oFileUploader = oEvent.getSource();
-            const oFile = oFileUploader.oFileUpload.files[0];
+            const oFile = oEvent.getParameter("files")[0];
             if (oFile) {
                 this.getView().getModel().setProperty("/currentFile", oFile);
             }
@@ -192,7 +141,6 @@ sap.ui.define([
             oModel.setProperty("/currentFile", null);
             
             MessageToast.show("File uploaded successfully");
-            this.getView().byId("fileInput").clear();
         },
 
         onFileDeleted: function(oEvent) {
