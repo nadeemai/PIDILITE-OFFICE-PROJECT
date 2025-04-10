@@ -3,140 +3,151 @@
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
     xmlns:core="sap.ui.core"
+    xmlns:f="sap.f"
     displayBlock="true"
     class="dashboardView">
 
-    <VBox id="_IDGenVBox" class="sapUiSmallMargin">
+    <!-- Panel to contain the entire dashboard -->
+    <Panel id="_IDGenPanel" class="dashboardPanel" expandable="false">
+        <headerToolbar>
+            <Toolbar id="_IDGenToolbar" class="headerToolbar">
+                <Image id="companyLogo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQN4zI47qvXfN00zC2FBC8aRP0kB6wtIcWTRQ&amp;s" 
+                       width="150px" height="40px" class="logo"/>
+                <Title id="_IDGenTitle" text="Approval Portal Dashboard" class="headerTitle" />
+            </Toolbar>
+        </headerToolbar>
+        <VBox id="_IDGenVBox" class="sapUiSmallMargin">
 
-        <!-- Header Tiles -->
-        <HBox id="_IDGenHBox" justifyContent="Center" alignItems="Center" class="tileContainer">
-            <GenericTile id="tilePending" header="Pending" class="customTile pendingTile">
-                <TileContent id="tileContentPending">
-                    <NumericContent id="numericContentPending" value="{/pendingCount}" valueColor="Critical" withMargin="false" />
-                </TileContent>
-            </GenericTile>
-            <GenericTile id="tileApproved" header="Approved" class="customTile approvedTile">
-                <TileContent id="tileContentApproved">
-                    <NumericContent id="numericContentApproved" value="{/approvedCount}" valueColor="Good" withMargin="false" />
-                </TileContent>
-            </GenericTile>
-            <GenericTile id="tileRejected" header="Rejected" class="customTile rejectedTile">
-                <TileContent id="tileContentRejected">
-                    <NumericContent id="numericContentRejected" value="{/rejectedCount}" valueColor="Error" withMargin="false" />
-                </TileContent>
-            </GenericTile>
-        </HBox>
+            <!-- Header Tiles -->
+            <HBox id="_IDGenHBox" justifyContent="Center" alignItems="Center" class="tileContainer">
+                <GenericTile id="tilePending" header="Pending" class="customTile pendingTile">
+                    <TileContent id="tileContentPending">
+                        <NumericContent id="numericContentPending" value="{/pendingCount}" valueColor="Critical" withMargin="false" />
+                    </TileContent>
+                </GenericTile>
+                <GenericTile id="tileApproved" header="Approved" class="customTile approvedTile">
+                    <TileContent id="tileContentApproved">
+                        <NumericContent id="numericContentApproved" value="{/approvedCount}" valueColor="Good" withMargin="false" />
+                    </TileContent>
+                </GenericTile>
+                <GenericTile id="tileRejected" header="Rejected" class="customTile rejectedTile">
+                    <TileContent id="tileContentRejected">
+                        <NumericContent id="numericContentRejected" value="{/rejectedCount}" valueColor="Error" withMargin="false" />
+                    </TileContent>
+                </GenericTile>
+            </HBox>
 
-        <!-- Action Buttons -->
-        <HBox id="_IDGenHBox1" class="sapUiSmallMarginBottom actionButtons" alignItems="Center" justifyContent="End">
-            <Button id="_IDGenButton3" icon="sap-icon://hint" press="onInfoPress" />
-            <Button id="_IDGenButton4" icon="sap-icon://filter" text="Filter" press="onFilterPress" />
-            <Button id="createButton" text="Create" type="Emphasized" press="onCreatePress" icon="sap-icon://add" class="pulseButton" />
-        </HBox>
+            <!-- Action Buttons -->
+            <HBox id="_IDGenHBox1" class="sapUiSmallMarginBottom actionButtons" alignItems="Center" justifyContent="End">
+                <Button id="_IDGenButton3" icon="sap-icon://hint" press="onInfoPress" />
+                <Button id="_IDGenButton4" icon="sap-icon://filter" text="Filter" press="onFilterPress" />
+                <Button id="createButton" text="Create" type="Emphasized" press="onCreatePress" icon="sap-icon://add" class="pulseButton" />
+            </HBox>
 
-        <!-- Filter Dialog -->
-        <Dialog id="filterDialog" title="Filter Options" stretch="false" contentWidth="300px">
-            <VBox id="_IDGenVBox5" class="sapUiSmallMargin">
-                <Label id="_IDGenLabel6" text="Type" />
-                <Select id="_IDGenSelect2" selectedKey="{/filter/type}" change="onFilterChange">
-                    <items>
-                        <core:Item id="_IDGenItem2" key="" text="All" />
-                        <core:Item id="_IDGenItem3" key="Pending" text="Pending" />
-                        <core:Item id="_IDGenItem4" key="Approved" text="Approved" />
-                        <core:Item id="_IDGenItem5" key="Rejected" text="Rejected" />
-                    </items>
-                </Select>
-                <Label id="_IDGenLabel18" text="Created By" />
-                <Select id="_IDGenSelect3" selectedKey="{/filter/createdBy}" change="onFilterChange">
-                    <items>
-                        <core:Item id="_IDGenItem6" key="" text="All" />
-                        <core:Item id="_IDGenItem7" key="Ankit" text="Ankit" />
-                        <core:Item id="_IDGenItem8" key="Nadeem" text="Nadeem" />
-                        <core:Item id="_IDGenItem9" key="Ishan" text="Ishan" />
-                    </items>
-                </Select>
-                <Label id="_IDGenLabel19" text="Created On" />
-                <Select id="_IDGenSelect4" selectedKey="{/filter/createdOn}" change="onFilterChange">
-                    <items>
-                        <core:Item id="_IDGenItem10" key="" text="All" />
-                        <core:Item id="_IDGenItem11" key="7-APR-2025" text="7-APR-2025" />
-                    </items>
-                </Select>
-                <Label id="_IDGenLabel20" text="Status" />
-                <Select id="_IDGenSelect5" selectedKey="{/filter/status}" change="onFilterChange">
-                    <items>
-                        <core:Item id="_IDGenItem27" key="" text="All" />
-                        <core:Item id="_IDGenItem28" key="Pending" text="Pending" />
-                        <core:Item id="_IDGenItem29" key="Approved" text="Approved" />
-                        <core:Item id="_IDGenItem30" key="Rejected" text="Rejected" />
-                    </items>
-                </Select>
-                <Label id="_IDGenLabel21" text="Reference No." />
-                <Select id="_IDGenSelect6" selectedKey="{/filter/referenceNo}" change="onFilterChange">
-                    <items>
-                        <core:Item id="_IDGenItem31" key="" text="All" />
-                        <core:Item id="_IDGenItem32" key="10211594" text="10211594" />
-                        <core:Item id="_IDGenItem33" key="10211592" text="10211592" />
-                        <core:Item id="_IDGenItem34" key="10211590" text="10211590" />
-                    </items>
-                </Select>
-                <HBox id="_IDGenHBox2" justifyContent="End" class="sapUiSmallMarginTop">
-                    <Button id="_IDGenButton9" text="Apply" press="onApplyFilter" type="Emphasized" />
-                    <Button id="_IDGenButton10" text="Cancel" press="onCancelFilter" />
-                </HBox>
-            </VBox>
-        </Dialog>
+            <!-- Table -->
+            <Table id="dashboardTable" items="{/requests}" mode="SingleSelectMaster" itemPress="onItemPress">
+                <columns>
+                    <Column id="_IDGenColumn"><Text id="_IDGenText" text="Title" /></Column>
+                    <Column id="_IDGenColumn1"><Text id="_IDGenText1" text="Created By" /></Column>
+                    <Column id="_IDGenColumn2"><Text id="_IDGenText2" text="Created On" /></Column>
+                    <Column id="_IDGenColumn3"><Text id="_IDGenText3" text="Status" /></Column>
+                    <Column id="_IDGenColumn4"><Text id="_IDGenText4" text="Modified On" /></Column>
+                    <Column id="_IDGenColumn5"><Text id="_IDGenText5" text="Creator Comments" /></Column>
+                    <Column id="_IDGenColumn6"><Text id="_IDGenText6" text="Reference No." /></Column>
+                    <Column id="_IDGenColumn7"><Text id="_IDGenText7" text="Level 1 Approver" /></Column>
+                    <Column id="_IDGenColumn8"><Text id="_IDGenText8" text="Level 2 Approver" /></Column>
+                </columns>
+                <items>
+                    <ColumnListItem id="_IDGenColumnListItem">
+                        <cells>
+                            <Button id="_IDGenButton11" text="View" press="onItemView" />
+                            <Text id="_IDGenText10" text="{createdBy}" />
+                            <Text id="_IDGenText11" text="{createdOn}" />
+                            <ObjectStatus id="_IDGenObjectStatus1" text="{status}" 
+                                state="{= ${status} === 'Approved' ? 'Success' : 
+                                       ${status} === 'Rejected' ? 'Error' : 'Warning'}" />
+                            <Text id="_IDGenText13" text="{modifiedOn}" />
+                            <Text id="_IDGenText14" text="{creatorComments}" />
+                            <Text id="_IDGenText15" text="{referenceNo}" />
+                            <Text id="_IDGenText25" text="{level1}" />
+                            <Text id="_IDGenText26" text="{level2}" />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
 
-        <!-- Table -->
-        <Table id="dashboardTable" items="{/requests}" mode="SingleSelectMaster" itemPress="onItemPress">
-            <columns>
-                <Column id="_IDGenColumn"><Text id="_IDGenText" text="Title" /></Column>
-                <Column id="_IDGenColumn1"><Text id="_IDGenText1" text="Created By" /></Column>
-                <Column id="_IDGenColumn2"><Text id="_IDGenText2" text="Created On" /></Column>
-                <Column id="_IDGenColumn3"><Text id="_IDGenText3" text="Status" /></Column>
-                <Column id="_IDGenColumn4"><Text id="_IDGenText4" text="Modified On" /></Column>
-                <Column id="_IDGenColumn5"><Text id="_IDGenText5" text="Creator Comments" /></Column>
-                <Column id="_IDGenColumn6"><Text id="_IDGenText6" text="Reference No." /></Column>
-                <Column id="_IDGenColumn7"><Text id="_IDGenText7" text="Level 1 Approver" /></Column>
-                <Column id="_IDGenColumn8"><Text id="_IDGenText8" text="Level 2 Approver" /></Column>
-            </columns>
-            <items>
-                <ColumnListItem id="_IDGenColumnListItem">
-                    <cells>
-                        <Button id="_IDGenButton11" text="View" press="onItemView" />
-                        <Text id="_IDGenText10" text="{createdBy}" />
-                        <Text id="_IDGenText11" text="{createdOn}" />
-                        <ObjectStatus id="_IDGenObjectStatus1" text="{status}" 
-                            state="{= ${status} === 'Approved' ? 'Success' : 
-                                   ${status} === 'Rejected' ? 'Error' : 'Warning'}" />
-                        <Text id="_IDGenText13" text="{modifiedOn}" />
-                        <Text id="_IDGenText14" text="{creatorComments}" />
-                        <Text id="_IDGenText15" text="{referenceNo}" />
-                        <Text id="_IDGenText25" text="{level1}" />
-                        <Text id="_IDGenText26" text="{level2}" />
-                    </cells>
-                </ColumnListItem>
-            </items>
-        </Table>
+            <!-- Filter Dialog -->
+            <Dialog id="filterDialog" title="Filter Options" stretch="false" contentWidth="300px">
+                <VBox id="_IDGenVBox5" class="sapUiSmallMargin">
+                    <Label id="_IDGenLabel6" text="Type" />
+                    <Select id="_IDGenSelect2" selectedKey="{/filter/type}" change="onFilterChange">
+                        <items>
+                            <core:Item id="_IDGenItem2" key="" text="All" />
+                            <core:Item id="_IDGenItem3" key="Pending" text="Pending" />
+                            <core:Item id="_IDGenItem4" key="Approved" text="Approved" />
+                            <core:Item id="_IDGenItem5" key="Rejected" text="Rejected" />
+                        </items>
+                    </Select>
+                    <Label id="_IDGenLabel18" text="Created By" />
+                    <Select id="_IDGenSelect3" selectedKey="{/filter/createdBy}" change="onFilterChange">
+                        <items>
+                            <core:Item id="_IDGenItem6" key="" text="All" />
+                            <core:Item id="_IDGenItem7" key="Ankit" text="Ankit" />
+                            <core:Item id="_IDGenItem8" key="Nadeem" text="Nadeem" />
+                            <core:Item id="_IDGenItem9" key="Ishan" text="Ishan" />
+                        </items>
+                    </Select>
+                    <Label id="_IDGenLabel19" text="Created On" />
+                    <Select id="_IDGenSelect4" selectedKey="{/filter/createdOn}" change="onFilterChange">
+                        <items>
+                            <core:Item id="_IDGenItem10" key="" text="All" />
+                            <core:Item id="_IDGenItem11" key="7-APR-2025" text="7-APR-2025" />
+                        </items>
+                    </Select>
+                    <Label id="_IDGenLabel20" text="Status" />
+                    <Select id="_IDGenSelect5" selectedKey="{/filter/status}" change="onFilterChange">
+                        <items>
+                            <core:Item id="_IDGenItem27" key="" text="All" />
+                            <core:Item id="_IDGenItem28" key="Pending" text="Pending" />
+                            <core:Item id="_IDGenItem29" key="Approved" text="Approved" />
+                            <core:Item id="_IDGenItem30" key="Rejected" text="Rejected" />
+                        </items>
+                    </Select>
+                    <Label id="_IDGenLabel21" text="Reference No." />
+                    <Select id="_IDGenSelect6" selectedKey="{/filter/referenceNo}" change="onFilterChange">
+                        <items>
+                            <core:Item id="_IDGenItem31" key="" text="All" />
+                            <core:Item id="_IDGenItem32" key="10211594" text="10211594" />
+                            <core:Item id="_IDGenItem33" key="10211592" text="10211592" />
+                            <core:Item id="_IDGenItem34" key="10211590" text="10211590" />
+                        </items>
+                    </Select>
+                    <HBox id="_IDGenHBox2" justifyContent="End" class="sapUiSmallMarginTop">
+                        <Button id="_IDGenButton9" text="Apply" press="onApplyFilter" type="Emphasized" />
+                        <Button id="_IDGenButton10" text="Cancel" press="onCancelFilter" />
+                    </HBox>
+                </VBox>
+            </Dialog>
 
-        <!-- Upload Dialog -->
-        <Dialog id="uploadDialog" title="Upload File" stretch="false" contentWidth="400px">
-            <VBox id="_IDGenVBox6" class="sapUiSmallMargin">
-                <Text id="_IDGenText161" text="Attachments ({/attachmentCount})" class="sapUiSmallMarginBottom" />
-                <HBox id="_IDGenHBox4">
-                    <Input id="fileInput"  change="onFileChange" placeholder="Choose File" />
-                    <Button id="_IDGenButton12" text="Upload" press="onFileUpload" type="Emphasized" />
-                </HBox>
-                <List id="attachmentList" items="{/attachments}" mode="Delete" delete="onFileDeleted">
-                    <items>
-                        <StandardListItem id="_IDGenStandardListItem" title="{fileName}" />
-                    </items>
-                </List>
-                <HBox id="_IDGenHBox3" justifyContent="End" class="sapUiSmallMarginTop">
-                    <Button id="_IDGenButton13" text="Close" press="onCloseUpload" />
-                </HBox>
-            </VBox>
-        </Dialog>
+            <!-- Upload Dialog -->
+            <Dialog id="uploadDialog" title="Upload File" stretch="false" contentWidth="400px">
+                <VBox id="_IDGenVBox6" class="sapUiSmallMargin">
+                    <Text id="_IDGenText161" text="Attachments ({/attachmentCount})" class="sapUiSmallMarginBottom" />
+                    <HBox id="_IDGenHBox4">
+                        <Input id="fileInput" change="onFileChange" placeholder="Choose File" />
+                        <Button id="_IDGenButton12" text="Upload" press="onFileUpload" type="Emphasized" />
+                    </HBox>
+                    <List id="attachmentList" items="{/attachments}" mode="Delete" delete="onFileDeleted">
+                        <items>
+                            <StandardListItem id="_IDGenStandardListItem" title="{fileName}" />
+                        </items>
+                    </List>
+                    <HBox id="_IDGenHBox3" justifyContent="End" class="sapUiSmallMarginTop">
+                        <Button id="_IDGenButton13" text="Close" press="onCloseUpload" />
+                    </HBox>
+                </VBox>
+            </Dialog>
 
-    </VBox>
+        </VBox>
+    </Panel>
 </mvc:View>
