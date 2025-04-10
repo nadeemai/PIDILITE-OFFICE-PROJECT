@@ -14,8 +14,8 @@ sap.ui.define([
         onInit: function () {
             const oData = {
                 pendingCount: 2,
-                approvedCount: 14,
-                rejectedCount: 14,
+                approvedCount: 5,
+                rejectedCount: 5,
                 attachmentCount: 0,
                 requests: [
                     {
@@ -26,7 +26,8 @@ sap.ui.define([
                         creatorComments: "Creator Comments",
                         referenceNo: "10211594",
                         level1: "Submitted",
-                        level2: "-"
+                        level2: "-",
+                        level3: "Approved"
                     },
                     {
                         createdBy: "Nadeem",
@@ -36,7 +37,19 @@ sap.ui.define([
                         creatorComments: "Creator Comments",
                         referenceNo: "10211592",
                         level1: "Submitted",
-                        level2: "Rejected"
+                        level2: "Rejected",
+                        level3:"-"
+                    },
+                    {
+                        createdBy: "Nadeem",
+                        createdOn: "7-APR-2025",
+                        status: "Rejected",
+                        modifiedOn: "7-APR-2025",
+                        creatorComments: "Creator Comments",
+                        referenceNo: "10211592",
+                        level1: "Submitted",
+                        level2: "Rejected",
+                        level3:"-"
                     },
                     {
                         createdBy: "Ishan",
@@ -46,7 +59,8 @@ sap.ui.define([
                         creatorComments: "Creator Comments",
                         referenceNo: "10211590",
                         level1: "Submitted",
-                        level2: "Submitted"
+                        level2: "Submitted",
+                        level3: "Approved"
                     }
                 ],
                 filter: {
