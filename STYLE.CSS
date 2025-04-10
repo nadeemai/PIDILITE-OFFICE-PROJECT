@@ -1,23 +1,136 @@
-.smallTile {
-    width: 150px !important;
+.dashboardView {
+    padding: 1rem;
+}
+
+.tileContainer {
+    margin-bottom: 1rem;
+    gap: 2rem;
+}
+
+.customTile {
+    width: 140px !important;
     height: 100px !important;
     border-radius: 12px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-  }
-  
-  .smallTile .sapMGTContent {
-    padding: 0.25rem !important;
+    text-align: center;
+    border: 2px solid;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.customTile .sapMGTContent {
+    padding: 0 !important;
+    margin: 0 !important;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.customTile .sapMNC {
+    font-size: 2rem !important;
+    font-weight: bold;
+    margin: 0 !important;
+    line-height: 1;
+}
+
+.customTile .sapMGTHeader {
+    font-size: 0.875rem !important;
+    margin-bottom: 0.5rem;
+}
+
+/* Tile specific styles */
+.pendingTile {
+    background-color: #fff3cd;
+    border-color: #ffc107;
+}
+
+.approvedTile {
+    background-color: #d4edda;
+    border-color: #28a745;
+}
+
+.rejectedTile {
+    background-color: #f8d7da;
+    border-color: #dc3545;
+}
+
+.actionButtons {
+    gap: 1rem;
+}
+
+/* Pulse animation for Create button */
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(0, 123, 255, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(0, 123, 255, 0);
+    }
+}
+
+.pulseButton {
+    animation: pulse 2s infinite;
+    border-radius: 4px;
+}
+
+.pulseButton .sapMBtnInner {
     display: flex;
     align-items: center;
-    justify-content: center;
-  }
-  
-  .smallTile .sapMNC {
-    font-size: 1.25rem !important;
-  }
-  
-  .smallTile .sapMGTSubHdr,
-  .smallTile .sapMGTHeader {
-    font-size: 0.75rem !important;
-  }
-  
+}
+
+.pulseButton .sapMBtnIcon {
+    margin-right: 0.5rem;
+}
+
+/* Table styling */
+#dashboardTable .sapMListTblHeaderCell {
+    font-weight: bold;
+    background-color: #f5f5f5;
+}
+
+/* Status colors */
+.sapMObjStatusError {
+    color: #dc3545 !important;
+}
+
+.sapMObjStatusSuccess {
+    color: #28a745 !important;
+}
+
+.sapMObjStatusWarning {
+    color: #ffc107 !important;
+}
+
+/* Upload dialog styling */
+#uploadDialog .sapMDialogScrollCont {
+    padding: 1rem;
+}
+
+#fileInput {
+    flex-grow: 1;
+    margin-right: 0.5rem;
+}
+
+#attachmentList {
+    margin-top: 0.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .tileContainer {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .customTile {
+        width: 100% !important;
+    }
+}
