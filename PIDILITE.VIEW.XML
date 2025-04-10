@@ -12,7 +12,7 @@
         <headerToolbar>
             <Toolbar id="_IDGenToolbar" class="headerToolbar">
                 <Image id="companyLogo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQN4zI47qvXfN00zC2FBC8aRP0kB6wtIcWTRQ&amp;s" 
-                       width="150px" height="40px" class="logo"/>
+                       width="150px" height="70px" class="logo"/>
                 <Title id="_IDGenTitle" text="Approval Portal Dashboard" class="headerTitle" />
             </Toolbar>
         </headerToolbar>
@@ -56,6 +56,8 @@
                     <Column id="_IDGenColumn6"><Text id="_IDGenText6" text="Reference No." /></Column>
                     <Column id="_IDGenColumn7"><Text id="_IDGenText7" text="Level 1 Approver" /></Column>
                     <Column id="_IDGenColumn8"><Text id="_IDGenText8" text="Level 2 Approver" /></Column>
+                    <Column id="_IDGenColumn81"><Text id="_IDGenText81" text="Level 3  Approver" /></Column>
+
                 </columns>
                 <items>
                     <ColumnListItem id="_IDGenColumnListItem">
@@ -71,6 +73,8 @@
                             <Text id="_IDGenText15" text="{referenceNo}" />
                             <Text id="_IDGenText25" text="{level1}" />
                             <Text id="_IDGenText26" text="{level2}" />
+                            <Text id="_IDGenText262" text="{level3}" />
+
                         </cells>
                     </ColumnListItem>
                 </items>
