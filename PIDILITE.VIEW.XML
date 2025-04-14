@@ -5,6 +5,9 @@
     xmlns:core="sap.ui.core"
     xmlns:f="sap.f"
     xmlns:u="sap.ui.unified"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:sf="sap.ui.comp.smartfield"
+    xmlns:layout="sap.ui.layout"
     displayBlock="true"
     class="dashboardView">
 
@@ -77,6 +80,174 @@
                     </ColumnListItem>
                 </items>
             </Table>
+
+            <!-- Price Requisition Dialog -->
+            <Dialog id="priceRequisitionDialog" title="Price Requisition" contentWidth="800px" stretch="true">
+                <content>
+                    <VBox class="sapUiSmallMargin">
+                        <Toolbar>
+                            <ToolbarSpacer/>
+                            <Button icon="sap-icon://save" text="Save" press="onSavePriceReq" type="Emphasized"/>
+                            <Button icon="sap-icon://print" text="Print" press="onPrintPriceReq"/>
+                            <Button icon="sap-icon://decline" text="Exit" press="onClosePriceReq"/>
+                            <Button icon="sap-icon://edit" text="Edit" press="onEditPriceReq"/>
+                        </Toolbar>
+                        
+                        <Panel headerText="Price Requisition Details" expandable="true" expanded="true">
+                            <form:SimpleForm editable="true" layout="ResponsiveGridLayout">
+                                <Label text="Created By:"/>
+                                <Text text="{/selectedRequest/createdBy}"/>
+                                
+                                <Label text="Reference No.:"/>
+                                <Text text="{/selectedRequest/referenceNo}"/>
+                                
+                                <Label text="Division:" required="true"/>
+                                <Select selectedKey="{/selectedRequest/division}">
+                                    <core:Item key="Division1" text="Division1"/>
+                                    <core:Item key="Division2" text="Division2"/>
+                                </Select>
+                                
+                                <Label text="DCNR% form:" required="true"/>
+                                <Select selectedKey="{/selectedRequest/dcnrForm}">
+                                    <core:Item key="20" text="20"/>
+                                    <core:Item key="30" text="30"/>
+                                </Select>
+                                
+                                <Label text="Standard Reason:" required="true"/>
+                                <Select selectedKey="{/selectedRequest/standardReason}">
+                                    <core:Item key="Nil" text="Nil"/>
+                                    <core:Item key="Other" text="Other"/>
+                                </Select>
+                                
+                                <Label text="Comment by Creator:" required="true"/>
+                                <TextArea value="{/selectedRequest/creatorComments}" rows="3"/>
+                                
+                                <Label text="Created Date:"/>
+                                <Text text="{/selectedRequest/createdOn}"/>
+                                
+                                <Label text="Status of the Request:"/>
+                                <Text text="{/selectedRequest/status}"/>
+                                
+                                <Label text="Sales Group:" required="true"/>
+                                <Select selectedKey="{/selectedRequest/salesGroup}">
+                                    <core:Item key="Group1" text="Group1"/>
+                                    <core:Item key="Group2" text="Group2"/>
+                                </Select>
+                                
+                                <Label text="DCNR% to:" required="true"/>
+                                <Select selectedKey="{/selectedRequest/dcnrTo}">
+                                    <core:Item key="10" text="10"/>
+                                    <core:Item key="15" text="15"/>
+                                </Select>
+                            </form:SimpleForm>
+                        </Panel>
+                        
+                        <Panel headerText="Division Section Table" expandable="true" expanded="true">
+                            <Table items="{/approvers}">
+                                <columns>
+                                    <Column><Text text="Role"/></Column>
+                                    <Column><Text text="Approver"/></Column>
+                                    <Column><Text text="Role"/></Column>
+                                    <Column><Text text="Approver"/></Column>
+                                </columns>
+                                <items>
+                                    <ColumnListItem>
+                                        <cells>
+                                            <Text text="Approver 1"/>
+                                            <Text text="ayush.jha@sumo"/>
+                                            <Text text="Alternate Approver 1"/>
+                                            <Text text="tanl.singh@sumo"/>
+                                        </cells>
+                                    </ColumnListItem>
+                                    <ColumnListItem>
+                                        <cells>
+                                            <Text text="Approver 2"/>
+                                            <Text text="ayushi.khanolkar@sumo"/>
+                                            <Text text="Alternate Approver 2"/>
+                                            <Text text="aakib.mohd@sumo"/>
+                                        </cells>
+                                    </ColumnListItem>
+                                    <ColumnListItem>
+                                        <cells>
+                                            <Text text="Approver 3"/>
+                                            <Text text="yugal.kishore@sumo"/>
+                                            <Text text="Alternate Approver 3"/>
+                                            <Text text="sumit.jhaldiyal@sumo"/>
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+                            </Table>
+                        </Panel>
+                    </VBox>
+                </content>
+            </Dialog>
+
+            <!-- Application Status Dialog -->
+            <Dialog id="appStatusDialog" title="Application Status" contentWidth="600px">
+                <content>
+                    <VBox class="sapUiSmallMargin">
+                        <Text text="Created by: {/selectedRequest/createdBy}" class="sapUiSmallMarginBottom"/>
+                        <Text text="On: {/selectedRequest/createdOn}" class="sapUiSmallMarginBottom"/>
+                        
+                        <Panel headerText="Approver 1" expandable="true" expanded="true">
+                            <form:SimpleForm layout="ResponsiveGridLayout">
+                                <Label text="Approver 1:"/>
+                                <Text text="ayush.jha@sumo"/>
+                                <Label text="Comments:"/>
+                                <Text text="{/selectedRequest/approver1Comments}"/>
+                            </form:SimpleForm>
+                        </Panel>
+                        
+                        <Panel headerText="Alternate Approver 1" expandable="true" expanded="true">
+                            <form:SimpleForm layout="ResponsiveGridLayout">
+                                <Label text="Alternate Approver 1:"/>
+                                <Text text="tanl.singh@sumo"/>
+                                <Label text="Comments:"/>
+                                <Text text="{/selectedRequest/altApprover1Comments}"/>
+                            </form:SimpleForm>
+                        </Panel>
+                        
+                        <Panel headerText="Approver 2" expandable="true" expanded="true">
+                            <form:SimpleForm layout="ResponsiveGridLayout">
+                                <Label text="Approver 2:"/>
+                                <Text text="ayushi.khanolkar@sumo"/>
+                                <Label text="Comments:"/>
+                                <Text text="{/selectedRequest/approver2Comments}"/>
+                            </form:SimpleForm>
+                        </Panel>
+                        
+                        <Panel headerText="Alternate Approver 2" expandable="true" expanded="true">
+                            <form:SimpleForm layout="ResponsiveGridLayout">
+                                <Label text="Alternate Approver 2:"/>
+                                <Text text="aakib.mohd@sumo"/>
+                                <Label text="Comments:"/>
+                                <Text text="{/selectedRequest/altApprover2Comments}"/>
+                            </form:SimpleForm>
+                        </Panel>
+                        
+                        <Panel headerText="Approver 3" expandable="true" expanded="true">
+                            <form:SimpleForm layout="ResponsiveGridLayout">
+                                <Label text="Approver 3:"/>
+                                <Text text="yugal.kishore@sumo"/>
+                                <Label text="Comments:"/>
+                                <Text text="{/selectedRequest/approver3Comments}"/>
+                            </form:SimpleForm>
+                        </Panel>
+                        
+                        <Panel headerText="Alternate Approver 3" expandable="true" expanded="true">
+                            <form:SimpleForm layout="ResponsiveGridLayout">
+                                <Label text="Alternate Approver 3:"/>
+                                <Text text="sumit.jhaldiyal@sumo"/>
+                                <Label text="Comments:"/>
+                                <Text text="{/selectedRequest/altApprover3Comments}"/>
+                            </form:SimpleForm>
+                        </Panel>
+                    </VBox>
+                </content>
+                <endButton>
+                    <Button text="Close" press="onCloseAppStatus" />
+                </endButton>
+            </Dialog>
 
             <!-- Filter Dialog -->
             <Dialog id="filterDialog" title="Filter Options" stretch="false" contentWidth="300px">
