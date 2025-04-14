@@ -15,7 +15,7 @@
         <headerToolbar>
             <Toolbar class="headerToolbar">
                 <Image src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQN4zI47qvXfN00zC2FBC8aRP0kB6wtIcWTRQ&amp;s" 
-                       width="150px" height="70px" class="logo"/>
+                       width="110px" height="50px" class="logo"/>
                 <Title text="Pidilite Price Requisition" class="headerTitle" />
             </Toolbar>
         </headerToolbar>
@@ -82,19 +82,21 @@
             </Table>
 
             <!-- Price Requisition Dialog -->
-            <Dialog id="priceRequisitionDialog" title="Price Requisition" contentWidth="800px" stretch="true">
+            <Dialog id="priceRequisitionDialog" title="Price Requisition" contentWidth="600px" stretch="true">
                 <content>
                     <VBox class="sapUiSmallMargin">
                         <Toolbar>
                             <ToolbarSpacer/>
                             <Button icon="sap-icon://save" text="Save" press="onSavePriceReq" type="Emphasized"/>
-                            <Button icon="sap-icon://print" text="Print" press="onPrintPriceReq"/>
-                            <Button icon="sap-icon://decline" text="Exit" press="onClosePriceReq"/>
-                            <Button icon="sap-icon://edit" text="Edit" press="onEditPriceReq"/>
+                            <Button icon="sap-icon://print" text="Print" press="onPrintPriceReq" type="Emphasized"/>
+                            <Button icon="sap-icon://decline" text="Exit" press="onClosePriceReq" type="Emphasized"/>
+                            <Button icon="sap-icon://edit" text="Edit" press="onEditPriceReq" type="Emphasized"/>
                         </Toolbar>
                         
                         <Panel headerText="Price Requisition Details" expandable="true" expanded="true">
-                            <form:SimpleForm editable="true" layout="ResponsiveGridLayout">
+                            <form:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                                adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"
+                                singleContainerFullSize="false">
                                 <Label text="Created By:"/>
                                 <Text text="{/selectedRequest/createdBy}"/>
                                 
@@ -102,25 +104,25 @@
                                 <Text text="{/selectedRequest/referenceNo}"/>
                                 
                                 <Label text="Division:" required="true"/>
-                                <Select selectedKey="{/selectedRequest/division}">
+                                <Select selectedKey="{/selectedRequest/division}" width="100%">
                                     <core:Item key="Division1" text="Division1"/>
                                     <core:Item key="Division2" text="Division2"/>
                                 </Select>
                                 
                                 <Label text="DCNR% form:" required="true"/>
-                                <Select selectedKey="{/selectedRequest/dcnrForm}">
+                                <Select selectedKey="{/selectedRequest/dcnrForm}" width="100%">
                                     <core:Item key="20" text="20"/>
                                     <core:Item key="30" text="30"/>
                                 </Select>
                                 
                                 <Label text="Standard Reason:" required="true"/>
-                                <Select selectedKey="{/selectedRequest/standardReason}">
+                                <Select selectedKey="{/selectedRequest/standardReason}" width="100%">
                                     <core:Item key="Nil" text="Nil"/>
                                     <core:Item key="Other" text="Other"/>
                                 </Select>
                                 
                                 <Label text="Comment by Creator:" required="true"/>
-                                <TextArea value="{/selectedRequest/creatorComments}" rows="3"/>
+                                <TextArea value="{/selectedRequest/creatorComments}" rows="3" width="100%"/>
                                 
                                 <Label text="Created Date:"/>
                                 <Text text="{/selectedRequest/createdOn}"/>
@@ -129,13 +131,13 @@
                                 <Text text="{/selectedRequest/status}"/>
                                 
                                 <Label text="Sales Group:" required="true"/>
-                                <Select selectedKey="{/selectedRequest/salesGroup}">
+                                <Select selectedKey="{/selectedRequest/salesGroup}" width="100%">
                                     <core:Item key="Group1" text="Group1"/>
                                     <core:Item key="Group2" text="Group2"/>
                                 </Select>
                                 
                                 <Label text="DCNR% to:" required="true"/>
-                                <Select selectedKey="{/selectedRequest/dcnrTo}">
+                                <Select selectedKey="{/selectedRequest/dcnrTo}" width="100%">
                                     <core:Item key="10" text="10"/>
                                     <core:Item key="15" text="15"/>
                                 </Select>
@@ -145,10 +147,10 @@
                         <Panel headerText="Division Section Table" expandable="true" expanded="true">
                             <Table items="{/approvers}">
                                 <columns>
-                                    <Column><Text text="Role"/></Column>
-                                    <Column><Text text="Approver"/></Column>
-                                    <Column><Text text="Role"/></Column>
-                                    <Column><Text text="Approver"/></Column>
+                                    <Column width="25%"><Text text="Role"/></Column>
+                                    <Column width="25%"><Text text="Approver"/></Column>
+                                    <Column width="25%"><Text text="Role"/></Column>
+                                    <Column width="25%"><Text text="Approver"/></Column>
                                 </columns>
                                 <items>
                                     <ColumnListItem>
@@ -194,7 +196,7 @@
                                 <Label text="Approver 1:"/>
                                 <Text text="ayush.jha@sumo"/>
                                 <Label text="Comments:"/>
-                                <Text text="{/selectedRequest/approver1Comments}"/>
+                                <TextArea value="{/selectedRequest/approver1Comments}" rows="2" editable="false"/>
                             </form:SimpleForm>
                         </Panel>
                         
@@ -203,7 +205,7 @@
                                 <Label text="Alternate Approver 1:"/>
                                 <Text text="tanl.singh@sumo"/>
                                 <Label text="Comments:"/>
-                                <Text text="{/selectedRequest/altApprover1Comments}"/>
+                                <TextArea value="{/selectedRequest/altApprover1Comments}" rows="2" editable="false"/>
                             </form:SimpleForm>
                         </Panel>
                         
@@ -212,7 +214,7 @@
                                 <Label text="Approver 2:"/>
                                 <Text text="ayushi.khanolkar@sumo"/>
                                 <Label text="Comments:"/>
-                                <Text text="{/selectedRequest/approver2Comments}"/>
+                                <TextArea value="{/selectedRequest/approver2Comments}" rows="2" editable="false"/>
                             </form:SimpleForm>
                         </Panel>
                         
@@ -221,7 +223,7 @@
                                 <Label text="Alternate Approver 2:"/>
                                 <Text text="aakib.mohd@sumo"/>
                                 <Label text="Comments:"/>
-                                <Text text="{/selectedRequest/altApprover2Comments}"/>
+                                <TextArea value="{/selectedRequest/altApprover2Comments}" rows="2" editable="false"/>
                             </form:SimpleForm>
                         </Panel>
                         
@@ -230,7 +232,7 @@
                                 <Label text="Approver 3:"/>
                                 <Text text="yugal.kishore@sumo"/>
                                 <Label text="Comments:"/>
-                                <Text text="{/selectedRequest/approver3Comments}"/>
+                                <TextArea value="{/selectedRequest/approver3Comments}" rows="2" editable="false"/>
                             </form:SimpleForm>
                         </Panel>
                         
@@ -239,7 +241,7 @@
                                 <Label text="Alternate Approver 3:"/>
                                 <Text text="sumit.jhaldiyal@sumo"/>
                                 <Label text="Comments:"/>
-                                <Text text="{/selectedRequest/altApprover3Comments}"/>
+                                <TextArea value="{/selectedRequest/altApprover3Comments}" rows="2" editable="false"/>
                             </form:SimpleForm>
                         </Panel>
                     </VBox>
@@ -347,7 +349,9 @@
             </Dialog>
         </VBox>
     </Panel>
-</mvc:View> 
+</mvc:View>
+
+
 
 
 UPDATED DATA
