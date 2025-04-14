@@ -6,8 +6,9 @@ sap.ui.define([
     "sap/m/Button",
     "sap/m/Text",
     "sap/ui/model/json/JSONModel",
-    "sap/m/ObjectStatus"
-], function (Controller, MessageBox, MessageToast, Dialog, Button, Text, JSONModel, ObjectStatus) {
+    "sap/m/ObjectStatus",
+    "sap/ui/core/Item"
+], function (Controller, MessageBox, MessageToast, Dialog, Button, Text, JSONModel, ObjectStatus, Item) {
     "use strict";
 
     return Controller.extend("com.tableentry.tablestructure.controller.Table_Entry", {
@@ -19,6 +20,7 @@ sap.ui.define([
                 attachmentCount: 0,
                 requests: [
                     {
+                        ID: "001",
                         createdBy: "Ankit",
                         createdOn: "7-APR-2025",
                         status: "Pending",
@@ -27,9 +29,21 @@ sap.ui.define([
                         referenceNo: "10211594",
                         level1: "Submitted",
                         level2: "-",
-                        level3: "Approved"
+                        level3: "Approved",
+                        division: "Division1",
+                        dcnrForm: "20",
+                        standardReason: "Nil",
+                        salesGroup: "Group1",
+                        dcnrTo: "10",
+                        approver1Comments: "Looks good",
+                        altApprover1Comments: "",
+                        approver2Comments: "",
+                        altApprover2Comments: "",
+                        approver3Comments: "Approved",
+                        altApprover3Comments: ""
                     },
                     {
+                        ID: "002",
                         createdBy: "Tuhin",
                         createdOn: "7-APR-2025",
                         status: "Rejected",
@@ -38,9 +52,21 @@ sap.ui.define([
                         referenceNo: "10211592",
                         level1: "Submitted",
                         level2: "Rejected",
-                        level3: "-"
+                        level3: "-",
+                        division: "Division2",
+                        dcnrForm: "30",
+                        standardReason: "Other",
+                        salesGroup: "Group2",
+                        dcnrTo: "15",
+                        approver1Comments: "Initial review",
+                        altApprover1Comments: "",
+                        approver2Comments: "Rejected due to pricing",
+                        altApprover2Comments: "",
+                        approver3Comments: "",
+                        altApprover3Comments: ""
                     },
                     {
+                        ID: "003",
                         createdBy: "Nadeem",
                         createdOn: "7-APR-2025",
                         status: "Rejected",
@@ -49,9 +75,21 @@ sap.ui.define([
                         referenceNo: "10211592",
                         level1: "Submitted",
                         level2: "Rejected",
-                        level3: "-"
+                        level3: "-",
+                        division: "Division1",
+                        dcnrForm: "20",
+                        standardReason: "Nil",
+                        salesGroup: "Group1",
+                        dcnrTo: "10",
+                        approver1Comments: "Approved",
+                        altApprover1Comments: "",
+                        approver2Comments: "Rejected - incorrect data",
+                        altApprover2Comments: "",
+                        approver3Comments: "",
+                        altApprover3Comments: ""
                     },
                     {
+                        ID: "004",
                         createdBy: "Ishan",
                         createdOn: "7-APR-2025",
                         status: "Approved",
@@ -60,7 +98,18 @@ sap.ui.define([
                         referenceNo: "10211590",
                         level1: "Submitted",
                         level2: "Submitted",
-                        level3: "Approved"
+                        level3: "Approved",
+                        division: "Division2",
+                        dcnrForm: "30",
+                        standardReason: "Other",
+                        salesGroup: "Group2",
+                        dcnrTo: "15",
+                        approver1Comments: "Approved",
+                        altApprover1Comments: "",
+                        approver2Comments: "Approved",
+                        altApprover2Comments: "",
+                        approver3Comments: "Final approval",
+                        altApprover3Comments: ""
                     }
                 ],
                 filter: {
@@ -71,17 +120,55 @@ sap.ui.define([
                     referenceNo: ""
                 },
                 uploads: [],
-                originalRequests: []
+                originalRequests: [],
+                selectedRequest: {},
+                approvers: [
+                    { role: "Approver 1", email: "ayush.jha@sumo", altRole: "Alternate Approver 1", altEmail: "tanl.singh@sumo" },
+                    { role: "Approver 2", email: "ayushi.khanolkar@sumo", altRole: "Alternate Approver 2", altEmail: "aakib.mohd@sumo" },
+                    { role: "Approver 3", email: "yugal.kishore@sumo", altRole: "Alternate Approver 3", altEmail: "sumit.jhaldiyal@sumo" }
+                ]
             };
             
             oData.originalRequests = [...oData.requests];
-            this.getView().setModel(new JSONModel(oData));
+            const oModel = new JSONModel(oData);
+            this.getView().setModel(oModel);
         },
 
         onItemView: function (oEvent) {
             const oContext = oEvent.getSource().getParent().getBindingContext();
             const oData = oContext.getObject();
-            MessageBox.information(`Viewing details for ${oData.createdBy}\nStatus: ${oData.status}`);
+            this.getView().getModel().setProperty("/selectedRequest", oData);
+            this.byId("priceRequisitionDialog").open();
+        },
+
+        onSavePriceReq: function() {
+            MessageToast.show("Price requisition saved successfully");
+        },
+
+        onPrintPriceReq: function() {
+            MessageToast.show("Printing price requisition...");
+        },
+
+        onClosePriceReq: function() {
+            this.byId("priceRequisitionDialog").close();
+        },
+
+        onEditPriceReq: function() {
+            const oDialog = this.byId("priceRequisitionDialog");
+            const bEditable = !oDialog.getContent()[0].getContent()[1].getEditable();
+            
+            oDialog.getContent()[0].getContent()[1].setEditable(bEditable);
+            oDialog.getContent()[0].getContent()[2].setEditable(bEditable);
+            
+            MessageToast.show(bEditable ? "Edit mode activated" : "Edit mode deactivated");
+        },
+
+        showAppStatus: function() {
+            this.byId("appStatusDialog").open();
+        },
+
+        onCloseAppStatus: function() {
+            this.byId("appStatusDialog").close();
         },
 
         onInfoPress: function () {
@@ -98,7 +185,6 @@ sap.ui.define([
             const sProperty = oEvent.getSource().getBinding("selectedKey").getPath().split("/")[2];
             oFilter[sProperty] = oEvent.getParameter("selectedItem").getKey();
             oModel.setProperty("/filter", oFilter);
-            // Filter will be applied only on "Apply" click, not here
         },
 
         onApplyFilter: function () {
@@ -173,6 +259,12 @@ sap.ui.define([
             
             oFileUploader.setValue("");
             MessageToast.show("File uploaded successfully");
+            
+            // Set default selected request and open Price Requisition dialog
+            if (oModel.getProperty("/requests").length > 0) {
+                oModel.setProperty("/selectedRequest", oModel.getProperty("/requests")[0]);
+                this.byId("priceRequisitionDialog").open();
+            }
         },
 
         formatFileSize: function(iBytes) {
@@ -212,7 +304,8 @@ sap.ui.define([
         onItemPress: function (oEvent) {
             const oItem = oEvent.getParameter("listItem");
             const oData = oItem.getBindingContext().getObject();
-            MessageBox.information(`Full details:\n\nCreated by: ${oData.createdBy}\nStatus: ${oData.status}\nReference No: ${oData.referenceNo}`);
+            this.getView().getModel().setProperty("/selectedRequest", oData);
+            this.byId("priceRequisitionDialog").open();
         },
 
         onAttachmentPress: function(oEvent) {
@@ -226,7 +319,6 @@ sap.ui.define([
         }
     });
 });
-
 
 
 
