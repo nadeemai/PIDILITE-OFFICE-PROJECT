@@ -30,7 +30,7 @@ sap.ui.define([
                         level3: "Approved"
                     },
                     {
-                        createdBy: "Goku",
+                        createdBy: "Tuhin",
                         createdOn: "7-APR-2025",
                         status: "Rejected",
                         modifiedOn: "7-APR-2025",
@@ -38,7 +38,7 @@ sap.ui.define([
                         referenceNo: "10211592",
                         level1: "Submitted",
                         level2: "Rejected",
-                        level3:"-"
+                        level3: "-"
                     },
                     {
                         createdBy: "Nadeem",
@@ -49,7 +49,7 @@ sap.ui.define([
                         referenceNo: "10211592",
                         level1: "Submitted",
                         level2: "Rejected",
-                        level3:"-"
+                        level3: "-"
                     },
                     {
                         createdBy: "Ishan",
@@ -70,12 +70,10 @@ sap.ui.define([
                     status: "",
                     referenceNo: ""
                 },
-                attachments: [],
-                uploads: [], // For the uploads tab
+                uploads: [],
                 originalRequests: []
             };
             
-            // Store original requests
             oData.originalRequests = [...oData.requests];
             this.getView().setModel(new JSONModel(oData));
         },
@@ -94,6 +92,15 @@ sap.ui.define([
             this.getView().byId("filterDialog").open();
         },
 
+        onFilterChange: function (oEvent) {
+            const oModel = this.getView().getModel();
+            const oFilter = oModel.getProperty("/filter");
+            const sProperty = oEvent.getSource().getBinding("selectedKey").getPath().split("/")[2];
+            oFilter[sProperty] = oEvent.getParameter("selectedItem").getKey();
+            oModel.setProperty("/filter", oFilter);
+            // Filter will be applied only on "Apply" click, not here
+        },
+
         onApplyFilter: function () {
             const oModel = this.getView().getModel();
             const oFilter = oModel.getProperty("/filter");
@@ -101,11 +108,11 @@ sap.ui.define([
             
             let aFilteredRequests = [...aAllRequests];
 
-            if (oFilter.type) aFilteredRequests = aFilteredRequests.filter(item => item.status === oFilter.type);
-            if (oFilter.createdBy) aFilteredRequests = aFilteredRequests.filter(item => item.createdBy === oFilter.createdBy);
-            if (oFilter.createdOn) aFilteredRequests = aFilteredRequests.filter(item => item.createdOn === oFilter.createdOn);
-            if (oFilter.status) aFilteredRequests = aFilteredRequests.filter(item => item.status === oFilter.status);
-            if (oFilter.referenceNo) aFilteredRequests = aFilteredRequests.filter(item => item.referenceNo === oFilter.referenceNo);
+            if (oFilter.type && oFilter.type !== "") aFilteredRequests = aFilteredRequests.filter(item => item.status === oFilter.type);
+            if (oFilter.createdBy && oFilter.createdBy !== "") aFilteredRequests = aFilteredRequests.filter(item => item.createdBy === oFilter.createdBy);
+            if (oFilter.createdOn && oFilter.createdOn !== "") aFilteredRequests = aFilteredRequests.filter(item => item.createdOn === oFilter.createdOn);
+            if (oFilter.status && oFilter.status !== "") aFilteredRequests = aFilteredRequests.filter(item => item.status === oFilter.status);
+            if (oFilter.referenceNo && oFilter.referenceNo !== "") aFilteredRequests = aFilteredRequests.filter(item => item.referenceNo === oFilter.referenceNo);
 
             oModel.setProperty("/requests", aFilteredRequests);
             this.getView().byId("filterDialog").close();
@@ -144,32 +151,28 @@ sap.ui.define([
                 return;
             }
             
-            // Simulate upload (in a real app, you would send to server here)
             const oModel = this.getView().getModel();
             const aUploads = oModel.getProperty("/uploads") || [];
             
-            // Get file extension
             const sFileName = oFile.name;
             const sFileType = sFileName.split('.').pop().toLowerCase();
             const sFileSize = this.formatFileSize(oFile.size);
+            
+            const sFileUrl = URL.createObjectURL(oFile);
             
             aUploads.unshift({
                 fileName: sFileName,
                 fileType: sFileType,
                 fileSize: sFileSize,
+                fileUrl: sFileUrl,
                 file: oFile
             });
             
             oModel.setProperty("/uploads", aUploads);
             oModel.setProperty("/attachmentCount", aUploads.length);
             
-            // Clear the file uploader
             oFileUploader.setValue("");
-            
             MessageToast.show("File uploaded successfully");
-            
-            // Switch to the uploads tab
-            this.getView().byId("mainTabBar").setSelectedKey("uploads");
         },
 
         formatFileSize: function(iBytes) {
@@ -177,6 +180,7 @@ sap.ui.define([
             const k = 1024;
             const sizes = ['Bytes', 'KB', 'MB', 'GB'];
             const i = Math.floor(Math.log(iBytes) / Math.log(k));
+            return parseFloat((iBytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
         },
 
         handleUploadComplete: function(oEvent) {
@@ -190,16 +194,6 @@ sap.ui.define([
             MessageToast.show("File type not allowed. Please upload PDF, JPG, PNG, DOC, DOCX, XLS, or XLSX files.");
         },
 
-        onFileDeleted: function(oEvent) {
-            const sFileName = oEvent.getParameter("listItem").getTitle();
-            const oModel = this.getView().getModel();
-            let aAttachments = oModel.getProperty("/attachments");
-            
-            aAttachments = aAttachments.filter(item => item.fileName !== sFileName);
-            oModel.setProperty("/attachments", aAttachments);
-            oModel.setProperty("/attachmentCount", aAttachments.length);
-        },
-
         onUploadDelete: function(oEvent) {
             const sFileName = oEvent.getParameter("listItem").getTitle();
             const oModel = this.getView().getModel();
@@ -207,7 +201,7 @@ sap.ui.define([
             
             aUploads = aUploads.filter(item => item.fileName !== sFileName);
             oModel.setProperty("/uploads", aUploads);
-            
+            oModel.setProperty("/attachmentCount", aUploads.length);
             MessageToast.show(`File ${sFileName} deleted`);
         },
 
@@ -221,9 +215,14 @@ sap.ui.define([
             MessageBox.information(`Full details:\n\nCreated by: ${oData.createdBy}\nStatus: ${oData.status}\nReference No: ${oData.referenceNo}`);
         },
 
-        onTabSelect: function(oEvent) {
-            const sKey = oEvent.getParameter("key");
-            // You can add specific logic for tab changes here if needed
+        onAttachmentPress: function(oEvent) {
+            const oItem = oEvent.getSource();
+            const oContext = oItem.getBindingContext();
+            const oFileData = oContext.getObject();
+            
+            if (oFileData.fileUrl) {
+                window.open(oFileData.fileUrl, '_blank');
+            }
         }
     });
 });
