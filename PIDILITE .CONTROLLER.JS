@@ -22,9 +22,9 @@ sap.ui.define([
                     {
                         ID: "001",
                         createdBy: "Ankit",
-                        createdOn: "7-APR-2025",
+                        createdOn: "10-04-2025",
                         status: "Pending",
-                        modifiedOn: "7-APR-2025",
+                        modifiedOn: "10-04-2025",
                         creatorComments: "Creator Comments",
                         referenceNo: "10211594",
                         level1: "Submitted",
@@ -44,10 +44,10 @@ sap.ui.define([
                     },
                     {
                         ID: "002",
-                        createdBy: "Tuhin",
-                        createdOn: "7-APR-2025",
+                        createdBy: "Son Goku",
+                        createdOn: "10-04-2025",
                         status: "Rejected",
-                        modifiedOn: "7-APR-2025",
+                        modifiedOn: "10-04-2025",
                         creatorComments: "Creator Comments",
                         referenceNo: "10211592",
                         level1: "Submitted",
@@ -68,9 +68,9 @@ sap.ui.define([
                     {
                         ID: "003",
                         createdBy: "Nadeem",
-                        createdOn: "7-APR-2025",
+                        createdOn: "10-04-2025",
                         status: "Rejected",
-                        modifiedOn: "7-APR-2025",
+                        modifiedOn: "10-04-2025",
                         creatorComments: "Creator Comments",
                         referenceNo: "10211592",
                         level1: "Submitted",
@@ -91,9 +91,9 @@ sap.ui.define([
                     {
                         ID: "004",
                         createdBy: "Ishan",
-                        createdOn: "7-APR-2025",
+                        createdOn: "10-04-2025",
                         status: "Approved",
-                        modifiedOn: "7-APR-2025",
+                        modifiedOn: "10-04-2025",
                         creatorComments: "Creator Comments",
                         referenceNo: "10211590",
                         level1: "Submitted",
@@ -318,8 +318,7 @@ sap.ui.define([
             }
         }
     });
-}); 
-
+});
 
 
 
