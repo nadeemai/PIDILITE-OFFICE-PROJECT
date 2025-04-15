@@ -155,58 +155,44 @@ UPDATE DATA 1
                         </Panel>
 
                         <!-- Division Section Table Panel -->
-                        <Panel headerText="Division Section Table" expandable="true" expanded="true">
-                            <form:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                       <Panel headerText="Division Section Table" expandable="true" expanded="true">
+                            <form:SimpleForm id="divisionForm" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
                                 adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"
                                 singleContainerFullSize="false">
                                 <Label text="Role"/>
-                                <Select selectedKey="{path: '/approvers/0/role'}" width="100%" editable="false">
-                                    <core:Item key="Approver 1" text="Approver 1"/>
-                                </Select>
+                                <Text text="{path: '/approvers/0/role'}" />
                                 <Label text="Approver"/>
-                                <Select selectedKey="{path: '/approvers/0/email'}" width="100%" editable="false">
-                                    <core:Item key="ayush.jha@sumo" text="ayush.jha@sumo"/>
-                                </Select>
+                                <Input value="{path: '/approvers/0/email'}" editable="{/editable}"/>
                                 <Label text="Role"/>
-                                <Select selectedKey="{path: '/approvers/0/altRole'}" width="100%" editable="false">
-                                    <core:Item key="Alternate Approver 1" text="Alternate Approver 1"/>
-                                </Select>
+                                <Text text="{path: '/approvers/0/altRole'}" />
                                 <Label text="Approver"/>
-                                <Select selectedKey="{path: '/approvers/0/altEmail'}" width="100%" editable="false">
-                                    <core:Item key="tanl.singh@sumo" text="tanl.singh@sumo"/>
-                                </Select>
+                                <Input value="{path: '/approvers/0/altEmail'}" editable="{/editable}"/>
                                 <Label text="Role"/>
-                                <Select selectedKey="{path: '/approvers/1/role'}" width="100%" editable="false">
-                                    <core:Item key="Approver 2" text="Approver 2"/>
-                                </Select>
+                                <Text text="{path: '/approvers/1/role'}" />
                                 <Label text="Approver"/>
-                                <Select selectedKey="{path: '/approvers/1/email'}" width="100%" editable="false">
-                                    <core:Item key="ayushi.khanolkar@sumo" text="ayushi.khanolkar@sumo"/>
-                                </Select>
+                                <Input value="{path: '/approvers/1/email'}" editable="{/editable}"/>
                                 <Label text="Role"/>
-                                <Select selectedKey="{path: '/approvers/1/altRole'}" width="100%" editable="false">
-                                    <core:Item key="Alternate Approver 2" text="Alternate Approver 2"/>
-                                </Select>
+                                <Text text="{path: '/approvers/1/altRole'}" />
                                 <Label text="Approver"/>
-                                <Select selectedKey="{path: '/approvers/1/altEmail'}" width="100%" editable="false">
-                                    <core:Item key="aakib.mohd@sumo" text="aakib.mohd@sumo"/>
-                                </Select>
+                                <Input value="{path: '/approvers/1/altEmail'}" editable="{/editable}"/>
                                 <Label text="Role"/>
-                                <Select selectedKey="{path: '/approvers/2/role'}" width="100%" editable="false">
-                                    <core:Item key="Approver 3" text="Approver 3"/>
-                                </Select>
+                                <Text text="{path: '/approvers/2/role'}" />
                                 <Label text="Approver"/>
-                                <Select selectedKey="{path: '/approvers/2/email'}" width="100%" editable="false">
-                                    <core:Item key="yugal.kishore@sumo" text="yugal.kishore@sumo"/>
-                                </Select>
+                                <Input value="{path: '/approvers/2/email'}" editable="{/editable}"/>
                                 <Label text="Role"/>
-                                <Select selectedKey="{path: '/approvers/2/altRole'}" width="100%" editable="false">
-                                    <core:Item key="Alternate Approver 3" text="Alternate Approver 3"/>
-                                </Select>
+                                <Text text="{path: '/approvers/2/altRole'}" />
                                 <Label text="Approver"/>
-                                <Select selectedKey="{path: '/approvers/2/altEmail'}" width="100%" editable="false">
-                                    <core:Item key="sumit.jhaldiyal@sumo" text="sumit.jhaldiyal@sumo"/>
-                                </Select>
+                                <Input value="{path: '/approvers/2/altEmail'}" editable="{/editable}"/>
+                            </form:SimpleForm>
+                        </Panel>
+
+                        <!-- Application Status Panel -->
+                        <Panel headerText="Application Status" expandable="true" expanded="true">
+                            <form:SimpleForm id="appStatusForm" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                                adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"
+                                singleContainerFullSize="false">
+                                <Label text="Accession status:"/>
+                                <Input value="{/selectedRequest/accessionStatus}" editable="false"/>
                             </form:SimpleForm>
                         </Panel>
 
@@ -426,7 +412,6 @@ UPDATE DATA 1
         </VBox>
     </Panel>
 </mvc:View>
-
 
 
 
