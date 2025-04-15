@@ -94,85 +94,287 @@ UPDATE DATA 1
                             <Button icon="sap-icon://decline" text="Exit" press="onClosePriceReq" type="Emphasized"/>
                             <Button icon="sap-icon://edit" text="Edit" press="onEditPriceReq" type="Emphasized"/>
                         </Toolbar>
-                        
+
+                        <!-- Price Requisition Details Panel -->
                         <Panel headerText="Price Requisition Details" expandable="true" expanded="true">
                             <form:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
                                 adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"
                                 singleContainerFullSize="false">
-                                <core:Title text="Price Requisition Details"/>
-                                <Label text="Created By:*" required="true"/>
-                                <Text text="{/selectedRequest/createdBy}"/>
+                                <Label text="Created By:" required="true"/>
+                                <Select selectedKey="{/selectedRequest/createdBy}" width="100%">
+                                    <core:Item key="Ankit" text="Ankit"/>
+                                    <core:Item key="Son Goku" text="Son Goku"/>
+                                </Select>
                                 <Label text="Created Date:"/>
-                                <Text text="{/selectedRequest/createdOn}"/>
-                                <Label text="Reference No.:*"/>
-                                <Text text="{/selectedRequest/referenceNo}"/>
+                                <Select selectedKey="{/selectedRequest/createdOn}" width="100%">
+                                    <core:Item key="7-APR-2025" text="7-APR-2025"/>
+                                    <core:Item key="8-APR-2025" text="8-APR-2025"/>
+                                </Select>
+                                <Label text="Reference No:" required="true"/>
+                                <Select selectedKey="{/selectedRequest/referenceNo}" width="100%">
+                                    <core:Item key="10211594" text="10211594"/>
+                                    <core:Item key="10211592" text="10211592"/>
+                                </Select>
                                 <Label text="Status of the Request:"/>
-                                <Text text="{/selectedRequest/status}"/>
-                                <Label text="Division:*"/>
+                                <Select selectedKey="{/selectedRequest/status}" width="100%">
+                                    <core:Item key="Pending" text="Pending"/>
+                                    <core:Item key="Approved" text="Approved"/>
+                                    <core:Item key="Rejected" text="Rejected"/>
+                                </Select>
+                                <Label text="Division:" required="true"/>
                                 <Select selectedKey="{/selectedRequest/division}" width="100%">
                                     <core:Item key="Division1" text="Division1"/>
                                     <core:Item key="Division2" text="Division2"/>
                                 </Select>
-                                <Label text="Sales Group:*"/>
+                                <Label text="Sales Group:" required="true"/>
                                 <Select selectedKey="{/selectedRequest/salesGroup}" width="100%">
                                     <core:Item key="Group1" text="Group1"/>
                                     <core:Item key="Group2" text="Group2"/>
                                 </Select>
-                                <Label text="DCNR% form:*"/>
+                                <Label text="DCNR% form:" required="true"/>
                                 <Select selectedKey="{/selectedRequest/dcnrForm}" width="100%">
                                     <core:Item key="20" text="20"/>
                                     <core:Item key="30" text="30"/>
                                 </Select>
-                                <Label text="DCNR% to:*"/>
+                                <Label text="DCNR% to:" required="true"/>
                                 <Select selectedKey="{/selectedRequest/dcnrTo}" width="100%">
                                     <core:Item key="10" text="10"/>
                                     <core:Item key="15" text="15"/>
                                 </Select>
-                                <Label text="Standard Reason:*"/>
+                                <Label text="Standard Reason:" required="true"/>
                                 <Select selectedKey="{/selectedRequest/standardReason}" width="100%">
                                     <core:Item key="Nil" text="Nil"/>
                                     <core:Item key="Other" text="Other"/>
                                 </Select>
-                                <Label text="Comment by Creator:*"/>
-                                <TextArea value="{/selectedRequest/creatorComments}" rows="3" width="100%"/>
+                                <Label text="Comment by Creator:" required="true"/>
+                                <Select selectedKey="{/selectedRequest/creatorComments}" width="100%">
+                                    <core:Item key="Creator Comments" text="Creator Comments"/>
+                                    <core:Item key="" text="None"/>
+                                </Select>
+                            </form:SimpleForm>
+                        </Panel>
 
-                                <core:Title text="Division Section Table"/>
+                        <!-- Division Section Table Panel -->
+                        <Panel headerText="Division Section Table" expandable="true" expanded="true">
+                            <form:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                                adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"
+                                singleContainerFullSize="false">
                                 <Label text="Role"/>
+                                <Select selectedKey="{path: '/approvers/0/role'}" width="100%" editable="false">
+                                    <core:Item key="Approver 1" text="Approver 1"/>
+                                </Select>
                                 <Label text="Approver"/>
+                                <Select selectedKey="{path: '/approvers/0/email'}" width="100%" editable="false">
+                                    <core:Item key="ayush.jha@sumo" text="ayush.jha@sumo"/>
+                                </Select>
                                 <Label text="Role"/>
+                                <Select selectedKey="{path: '/approvers/0/altRole'}" width="100%" editable="false">
+                                    <core:Item key="Alternate Approver 1" text="Alternate Approver 1"/>
+                                </Select>
                                 <Label text="Approver"/>
-                                <Label text="Approver 1"/>
-                                <Input value="{path: '/approvers/0/email'}" editable="false"/>
-                                <Label text="Alternate Approver 1"/>
-                                <Input value="{path: '/approvers/0/altEmail'}" editable="false"/>
-                                <Label text="Approver 2"/>
-                                <Input value="{path: '/approvers/1/email'}" editable="false"/>
-                                <Label text="Alternate Approver 2"/>
-                                <Input value="{path: '/approvers/1/altEmail'}" editable="false"/>
-                                <Label text="Approver 3"/>
-                                <Input value="{path: '/approvers/2/email'}" editable="false"/>
-                                <Label text="Alternate Approver 3"/>
-                                <Input value="{path: '/approvers/2/altEmail'}" editable="false"/>
+                                <Select selectedKey="{path: '/approvers/0/altEmail'}" width="100%" editable="false">
+                                    <core:Item key="tanl.singh@sumo" text="tanl.singh@sumo"/>
+                                </Select>
+                                <Label text="Role"/>
+                                <Select selectedKey="{path: '/approvers/1/role'}" width="100%" editable="false">
+                                    <core:Item key="Approver 2" text="Approver 2"/>
+                                </Select>
+                                <Label text="Approver"/>
+                                <Select selectedKey="{path: '/approvers/1/email'}" width="100%" editable="false">
+                                    <core:Item key="ayushi.khanolkar@sumo" text="ayushi.khanolkar@sumo"/>
+                                </Select>
+                                <Label text="Role"/>
+                                <Select selectedKey="{path: '/approvers/1/altRole'}" width="100%" editable="false">
+                                    <core:Item key="Alternate Approver 2" text="Alternate Approver 2"/>
+                                </Select>
+                                <Label text="Approver"/>
+                                <Select selectedKey="{path: '/approvers/1/altEmail'}" width="100%" editable="false">
+                                    <core:Item key="aakib.mohd@sumo" text="aakib.mohd@sumo"/>
+                                </Select>
+                                <Label text="Role"/>
+                                <Select selectedKey="{path: '/approvers/2/role'}" width="100%" editable="false">
+                                    <core:Item key="Approver 3" text="Approver 3"/>
+                                </Select>
+                                <Label text="Approver"/>
+                                <Select selectedKey="{path: '/approvers/2/email'}" width="100%" editable="false">
+                                    <core:Item key="yugal.kishore@sumo" text="yugal.kishore@sumo"/>
+                                </Select>
+                                <Label text="Role"/>
+                                <Select selectedKey="{path: '/approvers/2/altRole'}" width="100%" editable="false">
+                                    <core:Item key="Alternate Approver 3" text="Alternate Approver 3"/>
+                                </Select>
+                                <Label text="Approver"/>
+                                <Select selectedKey="{path: '/approvers/2/altEmail'}" width="100%" editable="false">
+                                    <core:Item key="sumit.jhaldiyal@sumo" text="sumit.jhaldiyal@sumo"/>
+                                </Select>
+                            </form:SimpleForm>
+                        </Panel>
 
-                                <core:Title text="Application Status"/>
-                                <Label text="Created By: Ankit"/>
-                                <Text text="on 07-APR-2025"/>
-                                <Label text="Approver 1"/>
-                                <Text text=""/>
-                                <Label text="Alternate Approver 1"/>
-                                <Text text="{/selectedRequest/altApprover1Comments}"/>
-                                <Label text="Approver 2"/>
-                                <Text text="{/selectedRequest/approver2Comments}"/>
-                                <Label text="Alternate Approver 2"/>
-                                <Text text="{/selectedRequest/altApprover2Comments}"/>
-                                <Label text="Approver 3"/>
-                                <Text text="{/selectedRequest/approver3Comments}"/>
-                                <Label text="Alternate Approver 3"/>
-                                <Text text="{/selectedRequest/altApprover3Comments}"/>
-                                <Label text="Account Admin"/>
-                                <Text text="{/selectedRequest/accountAdmin}"/>
-                                <Label text="Alternate Account Admin"/>
-                                <Text text="{/selectedRequest/altAccountAdmin}"/>
+                        <!-- Application Status Panel -->
+                        <Panel headerText="Application Status" expandable="true" expanded="true">
+                            <form:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                                adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"
+                                singleContainerFullSize="false">
+                                <Label text="Accession status:"/>
+                                <Select selectedKey="{/selectedRequest/accessionStatus}" width="100%">
+                                    <core:Item key="Oct 10-2022" text="Oct 10-2022"/>
+                                    <core:Item key="Oct 11-2022" text="Oct 11-2022"/>
+                                </Select>
+                            </form:SimpleForm>
+                        </Panel>
+
+                        <!-- Approver 1 Panel -->
+                        <Panel headerText="Approver 1" expandable="true" expanded="true">
+                            <form:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                                adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"
+                                singleContainerFullSize="false">
+                                <Label text="Approver 1:"/>
+                                <Select selectedKey="{/selectedRequest/approver1}" width="100%">
+                                    <core:Item key="Approver 1" text="Approver 1"/>
+                                </Select>
+                                <Label text="Comments:"/>
+                                <Select selectedKey="{/selectedRequest/approver1Comments}" width="100%">
+                                    <core:Item key="Looks good" text="Looks good"/>
+                                    <core:Item key="" text="None"/>
+                                </Select>
+                            </form:SimpleForm>
+                        </Panel>
+
+                        <!-- Alternate Approver 1 Panel -->
+                        <Panel headerText="Alternate Approver 1" expandable="true" expanded="true">
+                            <form:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                                adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"
+                                singleContainerFullSize="false">
+                                <Label text="Alternate Approver 1:"/>
+                                <Select selectedKey="{/selectedRequest/altApprover1}" width="100%">
+                                    <core:Item key="Alternate Approver 1" text="Alternate Approver 1"/>
+                                </Select>
+                                <Label text="Comments:"/>
+                                <Select selectedKey="{/selectedRequest/altApprover1Comments}" width="100%">
+                                    <core:Item key="" text="None"/>
+                                </Select>
+                            </form:SimpleForm>
+                        </Panel>
+
+                        <!-- Approver 2 Panel -->
+                        <Panel headerText="Approver 2" expandable="true" expanded="true">
+                            <form:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                                adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"
+                                singleContainerFullSize="false">
+                                <Label text="Approver 2:"/>
+                                <Select selectedKey="{/selectedRequest/approver2}" width="100%">
+                                    <core:Item key="Approver 2" text="Approver 2"/>
+                                </Select>
+                                <Label text="Comments:"/>
+                                <Select selectedKey="{/selectedRequest/approver2Comments}" width="100%">
+                                    <core:Item key="" text="None"/>
+                                </Select>
+                            </form:SimpleForm>
+                        </Panel>
+
+                        <!-- Alternate Approver 2 Panel -->
+                        <Panel headerText="Alternate Approver 2" expandable="true" expanded="true">
+                            <form:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                                adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"
+                                singleContainerFullSize="false">
+                                <Label text="Alternate Approver 2:"/>
+                                <Select selectedKey="{/selectedRequest/altApprover2}" width="100%">
+                                    <core:Item key="Alternate Approver 2" text="Alternate Approver 2"/>
+                                </Select>
+                                <Label text="Comments:"/>
+                                <Select selectedKey="{/selectedRequest/altApprover2Comments}" width="100%">
+                                    <core:Item key="" text="None"/>
+                                </Select>
+                            </form:SimpleForm>
+                        </Panel>
+
+                        <!-- Approver 3 Panel -->
+                        <Panel headerText="Approver 3" expandable="true" expanded="true">
+                            <form:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                                adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"
+                                singleContainerFullSize="false">
+                                <Label text="Approver 3:"/>
+                                <Select selectedKey="{/selectedRequest/approver3}" width="100%">
+                                    <core:Item key="Approver 3" text="Approver 3"/>
+                                </Select>
+                                <Label text="Comments:"/>
+                                <Select selectedKey="{/selectedRequest/approver3Comments}" width="100%">
+                                    <core:Item key="Approved" text="Approved"/>
+                                    <core:Item key="" text="None"/>
+                                </Select>
+                            </form:SimpleForm>
+                        </Panel>
+
+                        <!-- Alternate Approver 3 Panel -->
+                        <Panel headerText="Alternate Approver 3" expandable="true" expanded="true">
+                            <form:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                                adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"
+                                singleContainerFullSize="false">
+                                <Label text="Alternate Approver 3:"/>
+                                <Select selectedKey="{/selectedRequest/altApprover3}" width="100%">
+                                    <core:Item key="Alternate Approver 3" text="Alternate Approver 3"/>
+                                </Select>
+                                <Label text="Comments:"/>
+                                <Select selectedKey="{/selectedRequest/altApprover3Comments}" width="100%">
+                                    <core:Item key="" text="None"/>
+                                </Select>
+                            </form:SimpleForm>
+                        </Panel>
+
+                        <!-- Account Admin Panel -->
+                        <Panel headerText="Account Admin" expandable="true" expanded="true">
+                            <form:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                                adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"
+                                singleContainerFullSize="false">
+                                <Label text="Account Admin:"/>
+                                <Select selectedKey="{/selectedRequest/accountAdmin}" width="100%">
+                                    <core:Item key="Administration" text="Administration"/>
+                                </Select>
+                            </form:SimpleForm>
+                        </Panel>
+
+                        <!-- Alternate Account Admin Panel -->
+                        <Panel headerText="Alternate Account Admin" expandable="true" expanded="true">
+                            <form:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                                adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"
+                                singleContainerFullSize="false">
+                                <Label text="Alternate Account Admin:"/>
+                                <Select selectedKey="{/selectedRequest/altAccountAdmin}" width="100%">
+                                    <core:Item key="Alternate Account Address" text="Alternate Account Address"/>
+                                </Select>
+                            </form:SimpleForm>
+                        </Panel>
+
+                        <!-- Activity Log Panel -->
+                        <Panel headerText="Activity Log" expandable="true" expanded="true">
+                            <form:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                                adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"
+                                singleContainerFullSize="false">
+                                <Label text="Activity Action:"/>
+                                <Select selectedKey="{/selectedRequest/activityAction}" width="100%">
+                                    <core:Item key="Created" text="Created"/>
+                                    <core:Item key="Updated" text="Updated"/>
+                                </Select>
+                                <Label text="Section:"/>
+                                <Select selectedKey="{/selectedRequest/activitySection}" width="100%">
+                                    <core:Item key="" text="None"/>
+                                </Select>
+                                <Label text="Activity Date:"/>
+                                <Select selectedKey="{/selectedRequest/activityDate}" width="100%">
+                                    <core:Item key="" text="None"/>
+                                </Select>
+                                <Label text="Updated Time:"/>
+                                <Select selectedKey="{/selectedRequest/updatedTime}" width="100%">
+                                    <core:Item key="" text="None"/>
+                                </Select>
+                                <Label text="Preferred Key:"/>
+                                <Select selectedKey="{/selectedRequest/preferredKey}" width="100%">
+                                    <core:Item key="" text="None"/>
+                                </Select>
+                                <Label text="Changes:"/>
+                                <Select selectedKey="{/selectedRequest/changes}" width="100%">
+                                    <core:Item key="" text="None"/>
+                                </Select>
                             </form:SimpleForm>
                         </Panel>
                     </VBox>
@@ -224,7 +426,6 @@ UPDATE DATA 1
         </VBox>
     </Panel>
 </mvc:View>
-
 
 
 
