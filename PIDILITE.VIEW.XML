@@ -1,3 +1,235 @@
+UPDATE DATA 1
+
+<mvc:View
+    controllerName="com.tableentry.tablestructure.controller.Table_Entry"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.f"
+    xmlns:u="sap.ui.unified"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:sf="sap.ui.comp.smartfield"
+    xmlns:layout="sap.ui.layout"
+    displayBlock="true"
+    class="dashboardView">
+
+    <Panel class="dashboardPanel" expandable="false">
+        <headerToolbar>
+            <Toolbar class="headerToolbar">
+                <Image src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQN4zI47qvXfN00zC2FBC8aRP0kB6wtIcWTRQ&amp;s" 
+                       width="110px" height="50px" class="logo"/>
+                <Title text="Pidilite Price Requisition" class="headerTitle" />
+            </Toolbar>
+        </headerToolbar>
+        <VBox class="sapUiSmallMargin">
+
+            <!-- Header Tiles -->
+            <HBox justifyContent="Center" alignItems="Center" class="tileContainer">
+                <GenericTile header="Pending" class="customTile pendingTile">
+                    <TileContent>
+                        <NumericContent value="{/pendingCount}" valueColor="Critical" withMargin="false" class="centeredNumericContent"/>
+                    </TileContent>
+                </GenericTile>
+                <GenericTile header="Approved" class="customTile approvedTile">
+                    <TileContent>
+                        <NumericContent value="{/approvedCount}" valueColor="Good" withMargin="false" class="centeredNumericContent"/>
+                    </TileContent>
+                </GenericTile>
+                <GenericTile header="Rejected" class="customTile rejectedTile">
+                    <TileContent>
+                        <NumericContent value="{/rejectedCount}" valueColor="Error" withMargin="false" class="centeredNumericContent"/>
+                    </TileContent>
+                </GenericTile>
+            </HBox>
+
+            <!-- Action Buttons -->
+            <HBox class="sapUiSmallMarginBottom actionButtons" alignItems="Center" justifyContent="End">
+                <Button icon="sap-icon://hint" press="onInfoPress" />
+                <Button icon="sap-icon://filter" text="Filter" press="onFilterPress" />
+                <Button id="createButton" text="Create" type="Emphasized" press="onCreatePress" icon="sap-icon://add" class="createButton" />
+            </HBox>
+
+            <!-- Table -->
+            <Table id="dashboardTable" items="{/requests}" mode="SingleSelectMaster" itemPress="onItemPress">
+                <columns>
+                    <Column><Text text="Title" /></Column>
+                    <Column><Text text="Created By" /></Column>
+                    <Column><Text text="Created On" /></Column>
+                    <Column><Text text="Status" /></Column>
+                    <Column><Text text="Modified On" /></Column>
+                    <Column><Text text="Creator Comments" /></Column>
+                    <Column><Text text="Reference No." /></Column>
+                    <Column><Text text="Level 1 Approver" /></Column>
+                    <Column><Text text="Level 2 Approver" /></Column>
+                    <Column><Text text="Level 3 Approver" /></Column>
+                </columns>
+                <items>
+                    <ColumnListItem>
+                        <cells>
+                            <Button text="View" press="onItemView" />
+                            <Text text="{createdBy}" />
+                            <Text text="{createdOn}" />
+                            <ObjectStatus text="{status}" 
+                                state="{= ${status} === 'Approved' ? 'Success' : 
+                                       ${status} === 'Rejected' ? 'Error' : 'Warning'}" />
+                            <Text text="{modifiedOn}" />
+                            <Text text="{creatorComments}" />
+                            <Text text="{referenceNo}" />
+                            <Text text="{level1}" />
+                            <Text text="{level2}" />
+                            <Text text="{level3}" />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+
+            <!-- Price Requisition Dialog -->
+            <Dialog id="priceRequisitionDialog" title="Price Requisition" contentWidth="800px" stretch="true">
+                <content>
+                    <VBox class="sapUiSmallMargin">
+                        <Toolbar>
+                            <ToolbarSpacer/>
+                            <Button icon="sap-icon://save" text="Save" press="onSavePriceReq" type="Emphasized"/>
+                            <Button icon="sap-icon://print" text="Print" press="onPrintPriceReq" type="Emphasized"/>
+                            <Button icon="sap-icon://decline" text="Exit" press="onClosePriceReq" type="Emphasized"/>
+                            <Button icon="sap-icon://edit" text="Edit" press="onEditPriceReq" type="Emphasized"/>
+                        </Toolbar>
+                        
+                        <Panel headerText="Price Requisition Details" expandable="true" expanded="true">
+                            <form:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                                adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"
+                                singleContainerFullSize="false">
+                                <core:Title text="Price Requisition Details"/>
+                                <Label text="Created By:*" required="true"/>
+                                <Text text="{/selectedRequest/createdBy}"/>
+                                <Label text="Created Date:"/>
+                                <Text text="{/selectedRequest/createdOn}"/>
+                                <Label text="Reference No.:*"/>
+                                <Text text="{/selectedRequest/referenceNo}"/>
+                                <Label text="Status of the Request:"/>
+                                <Text text="{/selectedRequest/status}"/>
+                                <Label text="Division:*"/>
+                                <Select selectedKey="{/selectedRequest/division}" width="100%">
+                                    <core:Item key="Division1" text="Division1"/>
+                                    <core:Item key="Division2" text="Division2"/>
+                                </Select>
+                                <Label text="Sales Group:*"/>
+                                <Select selectedKey="{/selectedRequest/salesGroup}" width="100%">
+                                    <core:Item key="Group1" text="Group1"/>
+                                    <core:Item key="Group2" text="Group2"/>
+                                </Select>
+                                <Label text="DCNR% form:*"/>
+                                <Select selectedKey="{/selectedRequest/dcnrForm}" width="100%">
+                                    <core:Item key="20" text="20"/>
+                                    <core:Item key="30" text="30"/>
+                                </Select>
+                                <Label text="DCNR% to:*"/>
+                                <Select selectedKey="{/selectedRequest/dcnrTo}" width="100%">
+                                    <core:Item key="10" text="10"/>
+                                    <core:Item key="15" text="15"/>
+                                </Select>
+                                <Label text="Standard Reason:*"/>
+                                <Select selectedKey="{/selectedRequest/standardReason}" width="100%">
+                                    <core:Item key="Nil" text="Nil"/>
+                                    <core:Item key="Other" text="Other"/>
+                                </Select>
+                                <Label text="Comment by Creator:*"/>
+                                <TextArea value="{/selectedRequest/creatorComments}" rows="3" width="100%"/>
+
+                                <core:Title text="Division Section Table"/>
+                                <Label text="Role"/>
+                                <Label text="Approver"/>
+                                <Label text="Role"/>
+                                <Label text="Approver"/>
+                                <Label text="Approver 1"/>
+                                <Input value="{path: '/approvers/0/email'}" editable="false"/>
+                                <Label text="Alternate Approver 1"/>
+                                <Input value="{path: '/approvers/0/altEmail'}" editable="false"/>
+                                <Label text="Approver 2"/>
+                                <Input value="{path: '/approvers/1/email'}" editable="false"/>
+                                <Label text="Alternate Approver 2"/>
+                                <Input value="{path: '/approvers/1/altEmail'}" editable="false"/>
+                                <Label text="Approver 3"/>
+                                <Input value="{path: '/approvers/2/email'}" editable="false"/>
+                                <Label text="Alternate Approver 3"/>
+                                <Input value="{path: '/approvers/2/altEmail'}" editable="false"/>
+
+                                <core:Title text="Application Status"/>
+                                <Label text="Created By: Ankit"/>
+                                <Text text="on 07-APR-2025"/>
+                                <Label text="Approver 1"/>
+                                <Text text=""/>
+                                <Label text="Alternate Approver 1"/>
+                                <Text text="{/selectedRequest/altApprover1Comments}"/>
+                                <Label text="Approver 2"/>
+                                <Text text="{/selectedRequest/approver2Comments}"/>
+                                <Label text="Alternate Approver 2"/>
+                                <Text text="{/selectedRequest/altApprover2Comments}"/>
+                                <Label text="Approver 3"/>
+                                <Text text="{/selectedRequest/approver3Comments}"/>
+                                <Label text="Alternate Approver 3"/>
+                                <Text text="{/selectedRequest/altApprover3Comments}"/>
+                                <Label text="Account Admin"/>
+                                <Text text="{/selectedRequest/accountAdmin}"/>
+                                <Label text="Alternate Account Admin"/>
+                                <Text text="{/selectedRequest/altAccountAdmin}"/>
+                            </form:SimpleForm>
+                        </Panel>
+                    </VBox>
+                </content>
+            </Dialog>
+
+            <!-- Upload Dialog -->
+            <Dialog id="uploadDialog" title="Upload File" stretch="false" contentWidth="400px">
+                <VBox class="sapUiSmallMargin">
+                    <Text text="Attachments ({/attachmentCount})" class="sapUiSmallMarginBottom" />
+                    <HBox>
+                        <u:FileUploader
+                            id="fileUploader"
+                            name="myFileUpload"
+                            uploadUrl="/upload"
+                            tooltip="Upload your file"
+                            uploadComplete="handleUploadComplete"
+                            change="handleValueChange"
+                            typeMissmatch="handleTypeMissmatch"
+                            style="Emphasized"
+                            fileType="pdf,jpg,png,doc,docx,xls,xlsx"
+                            placeholder="Choose a file">
+                            <u:parameters>
+                                <u:FileUploaderParameter name="Accept-CH" value="Viewport-Width"/>
+                                <u:FileUploaderParameter name="Accept-CH" value="Width"/>
+                                <u:FileUploaderParameter name="Accept-CH-Lifetime" value="86400"/>
+                            </u:parameters>
+                        </u:FileUploader>
+                        <Button text="Upload" press="handleUploadPress" type="Emphasized" />
+                    </HBox>
+                    <List id="attachmentList" items="{/uploads}" mode="Delete" delete="onUploadDelete">
+                        <items>
+                            <StandardListItem 
+                                title="{fileName}"
+                                description="{fileType}"
+                                info="{fileSize}"
+                                type="Active"
+                                press="onAttachmentPress"
+                                icon="{= ${fileType} === 'pdf' ? 'sap-icon://pdf-attachment' : 
+                                       ${fileType} === 'jpg' || ${fileType} === 'png' ? 'sap-icon://picture' : 
+                                       'sap-icon://document-text'}" />
+                        </items>
+                    </List>
+                    <HBox justifyContent="End" class="sapUiSmallMarginTop">
+                        <Button text="Close" press="onCloseUpload" />
+                    </HBox>
+                </VBox>
+            </Dialog>
+        </VBox>
+    </Panel>
+</mvc:View>
+
+
+
+
+
+
 <mvc:View
     controllerName="com.tableentry.tablestructure.controller.Table_Entry"
     xmlns:mvc="sap.ui.core.mvc"
