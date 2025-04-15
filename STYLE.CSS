@@ -14,9 +14,9 @@
 }
 
 .headerToolbar {
-    background-color: #005b9f !important; /* Pidilite blue background */
+    background-color: #005b9f !important;
     padding: 0.5rem 1rem;
-    height: 70px !important; /* Adjusted height to accommodate larger logo */
+    height: 70px !important;
 }
 
 .headerTitle {
@@ -25,7 +25,7 @@
     font-weight: bold;
     text-align: center;
     flex-grow: 1;
-    margin-left: 210px; /* Adjusted to match the increased logo width */
+    margin-left: 210px;
 }
 
 .logo {
@@ -85,17 +85,14 @@
 
 /* Tile specific styles */
 .pendingTile {
-    background-color: #fff3cd;
     border-color: #ffc107;
 }
 
 .approvedTile {
-    background-color: #d4edda;
     border-color: #28a745;
 }
 
 .rejectedTile {
-    background-color: #f8d7da;
     border-color: #dc3545;
 }
 
@@ -162,6 +159,36 @@
 
 #attachmentList {
     margin-top: 0.5rem;
+}
+
+/* Division Section Table styling */
+#divisionForm .sapUiFormResGridCont {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+#divisionForm .sapUiFormResGridCont > .sapUiFormElement {
+    margin-bottom: 0.5rem;
+}
+
+#divisionForm .roleLabel {
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+}
+
+#divisionForm HBox {
+    display: flex;
+    gap: 1rem;
+}
+
+#divisionForm VBox {
+    flex: 1;
+}
+
+/* Additional centering for numeric content */
+.sapMGT .sapMNCValue.WithoutMargin {
+    justify-content: center;
 }
 
 /* Responsive adjustments */
