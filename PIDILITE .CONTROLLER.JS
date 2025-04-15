@@ -27,7 +27,7 @@ sap.ui.define([
                         createdOn: "7-APR-2025",
                         status: "Pending",
                         modifiedOn: "7-APR-2025",
-                        creatorComments: "",
+                        creatorComments: "Creator Comments",
                         referenceNo: "10211594",
                         level1: "Submitted",
                         level2: "-",
@@ -37,80 +37,26 @@ sap.ui.define([
                         standardReason: "Nil",
                         salesGroup: "Group1",
                         dcnrTo: "10",
+                        accessionStatus: "Oct 10-2022",
+                        approver1: "Approver 1",
+                        altApprover1: "Alternate Approver 1",
+                        approver2: "Approver 2",
+                        altApprover2: "Alternate Approver 2",
+                        approver3: "Approver 3",
+                        altApprover3: "Alternate Approver 3",
+                        accountAdmin: "Administration",
+                        altAccountAdmin: "Alternate Account Address",
+                        activityAction: "Created",
+                        activitySection: "",
+                        activityDate: "",
+                        updatedTime: "",
+                        preferredKey: "",
+                        changes: "",
                         approver1Comments: "Looks good",
                         altApprover1Comments: "",
                         approver2Comments: "",
                         altApprover2Comments: "",
                         approver3Comments: "Approved",
-                        altApprover3Comments: ""
-                    },
-                    {
-                        ID: "002",
-                        createdBy: "Son Goku",
-                        createdOn: "7-APR-2025",
-                        status: "Rejected",
-                        modifiedOn: "7-APR-2025",
-                        creatorComments: "",
-                        referenceNo: "10211592",
-                        level1: "Submitted",
-                        level2: "Rejected",
-                        level3: "-",
-                        division: "Division2",
-                        dcnrForm: "30",
-                        standardReason: "Other",
-                        salesGroup: "Group2",
-                        dcnrTo: "15",
-                        approver1Comments: "Initial review",
-                        altApprover1Comments: "",
-                        approver2Comments: "Rejected due to pricing",
-                        altApprover2Comments: "",
-                        approver3Comments: "",
-                        altApprover3Comments: ""
-                    },
-                    {
-                        ID: "003",
-                        createdBy: "Nadeem",
-                        createdOn: "7-APR-2025",
-                        status: "Rejected",
-                        modifiedOn: "7-APR-2025",
-                        creatorComments: "",
-                        referenceNo: "10211592",
-                        level1: "Submitted",
-                        level2: "Rejected",
-                        level3: "-",
-                        division: "Division1",
-                        dcnrForm: "20",
-                        standardReason: "Nil",
-                        salesGroup: "Group1",
-                        dcnrTo: "10",
-                        approver1Comments: "Approved",
-                        altApprover1Comments: "",
-                        approver2Comments: "Rejected - incorrect data",
-                        altApprover2Comments: "",
-                        approver3Comments: "",
-                        altApprover3Comments: ""
-                    },
-                    {
-                        ID: "004",
-                        createdBy: "Ishan",
-                        createdOn: "7-APR-2025",
-                        status: "Approved",
-                        modifiedOn: "7-APR-2025",
-                        creatorComments: "",
-                        referenceNo: "10211590",
-                        level1: "Submitted",
-                        level2: "Submitted",
-                        level3: "Approved",
-                        division: "Division2",
-                        dcnrForm: "30",
-                        standardReason: "Other",
-                        salesGroup: "Group2",
-                        dcnrTo: "15",
-                        approver1Comments: "Approved",
-                        altApprover1Comments: "",
-                        approver2Comments: "Approved",
-                        altApprover2Comments: "",
-                        approver3Comments: "Final approval",
                         altApprover3Comments: ""
                     }
                 ],
@@ -158,10 +104,7 @@ sap.ui.define([
         onEditPriceReq: function() {
             const oDialog = this.byId("priceRequisitionDialog");
             const bEditable = !oDialog.getContent()[0].getContent()[1].getEditable();
-            
             oDialog.getContent()[0].getContent()[1].setEditable(bEditable);
-            oDialog.getContent()[0].getContent()[2].setEditable(bEditable);
-            
             MessageToast.show(bEditable ? "Edit mode activated" : "Edit mode deactivated");
         },
 
@@ -185,7 +128,6 @@ sap.ui.define([
             const oModel = this.getView().getModel();
             const oFilter = oModel.getProperty("/filter");
             const aAllRequests = oModel.getProperty("/originalRequests");
-            
             let aFilteredRequests = [...aAllRequests];
 
             if (oFilter.type && oFilter.type !== "") aFilteredRequests = aFilteredRequests.filter(item => item.status === oFilter.type);
