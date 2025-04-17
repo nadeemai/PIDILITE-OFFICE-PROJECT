@@ -17,6 +17,439 @@
         <headerToolbar>
             <Toolbar class="headerToolbar">
                 <Image src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQN4zI47qvXfN00zC2FBC8aRP0kB6wtIcWTRQ" 
+                       width="120px" height="60px" class="logo"/>
+                <Title text="Pidilite Price Requisition" class="headerTitle" />
+            </Toolbar>
+        </headerToolbar>
+        <VBox class="sapUiSmallMargin">
+
+            <!-- Header Tiles -->
+            <HBox justifyContent="Center" alignItems="Center" class="tileContainer">
+                <GenericTile header="Pending" class="customTile pendingTile" press="onTilePress">
+                    <TileContent>
+                        <NumericContent value="{/pendingCount}" valueColor="Critical" withMargin="false" class="centeredNumericContent"/>
+                    </TileContent>
+                </GenericTile>
+                <GenericTile header="Approved" class="customTile approvedTile" press="onTilePress">
+                    <TileContent>
+                        <NumericContent value="{/approvedCount}" valueColor="Good" withMargin="false" class="centeredNumericContent"/>
+                    </TileContent>
+                </GenericTile>
+                <GenericTile header="Rejected" class="customTile rejectedTile" press="onTilePress">
+                    <TileContent>
+                        <NumericContent value="{/rejectedCount}" valueColor="Error" withMargin="false" class="centeredNumericContent"/>
+                    </TileContent>
+                </GenericTile>
+            </HBox>
+
+            <!-- Action Buttons -->
+            <HBox class="sapUiSmallMarginBottom actionButtons" alignItems="Center" justifyContent="End">
+                <Button icon="sap-icon://hint" press="onInfoPress" tooltip="Information"/>
+                <Button icon="sap-icon://filter" text="Filter" press="onFilterPress" tooltip="Filter Requests"/>
+                <Button id="createButton" text="Create" type="Emphasized" press="onCreatePress" icon="sap-icon://add" tooltip="Create New Request"/>
+            </HBox>
+
+            <!-- Table -->
+            <Table id="dashboardTable" items="{/requests}" mode="SingleSelectMaster" itemPress="onItemPress" growing="true" growingThreshold="10">
+                <columns>
+                    <Column width="10%"><Text text="Title" /></Column>
+                    <Column width="12%"><Text text="Created By" /></Column>
+                    <Column width="12%"><Text text="Created On" /></Column>
+                    <Column width="10%"><Text text="Status" /></Column>
+                    <Column width="12%"><Text text="Modified On" /></Column>
+                    <Column width="15%"><Text text="Creator Comments" /></Column>
+                    <Column width="12%"><Text text="Reference No." /></Column>
+                    <Column width="12%"><Text text="Level 1 Approver" /></Column>
+                    <Column width="12%"><Text text="Level 2 Approver" /></Column>
+                    <Column width="12%"><Text text="Level 3 Approver" /></Column>
+                </columns>
+                <items>
+                    <ColumnListItem type="Navigation">
+                        <cells>
+                            <Button text="View" press="onItemView" type="Transparent"/>
+                            <Text text="{createdBy}" />
+                            <Text text="{createdOn}" />
+                            <ObjectStatus text="{status}" 
+                                state="{= ${status} === 'Approved' ? 'Success' : ${status} === 'Rejected' ? 'Error' : 'Warning'}" />
+                            <Text text="{modifiedOn}" />
+                            <Text text="{creatorComments}" />
+                            <Text text="{referenceNo}" />
+                            <Text text="{approver1}" />
+                            <Text text="{approver2}" />
+                            <Text text="{approver3}" />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+
+            <!-- Price Requisition Dialog -->
+            <Dialog id="priceRequisitionDialog" title="Price Requisition" contentWidth="800px" stretch="{device>/system/phone}">
+                <content>
+                    <VBox class="sapUiSmallMargin">
+                        <Toolbar>
+                            <ToolbarSpacer/>
+                            <Button icon="sap-icon://save" text="Save" press="onSavePriceReq" type="Accept" tooltip="Save Request"/>
+                            <Button icon="sap-icon://print" text="Print" press="onPrintPriceReq" type="Default" tooltip="Print Request"/>
+                            <Button icon="sap-icon://decline" text="Exit" press="onClosePriceReq" type="Reject" tooltip="Close Dialog"/>
+                            <Button icon="sap-icon://edit" text="Edit" press="onEditPriceReq" type="Default" tooltip="Toggle Edit Mode"/>
+                        </Toolbar>
+
+                        <!-- IconTabBar for Price Requisition Details -->
+                        <IconTabBar id="priceReqIconTabBar" class="sapUiResponsiveMargin" select="onTabSelect">
+                            <items>
+                                <IconTabFilter text="Info" key="info" icon="sap-icon://hint">
+                                    <Panel headerText="Price Requisition Details" expandable="true" expanded="true">
+                                        <form:SimpleForm id="priceReqForm" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                                            adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"
+                                            singleContainerFullSize="false">
+                                            <core:Title text="Fields marked with  are mandatory"/>
+                                            <Label text="Created By:*" required="true"/>
+                                            <Input id="createdByInput" value="{/selectedRequest/createdBy}" editable="{/editable}" required="true"/>
+                                            <Label text="Created Date:"/>
+                                            <Input value="{/selectedRequest/createdOn}" editable="false"/>
+                                            <Label text="Reference No:*" required="true"/>
+                                            <Input id="referenceNoInput" value="{/selectedRequest/referenceNo}" editable="{/editable}" required="true"/>
+                                            <Label text="Status of the Request:"/>
+                                            <Input value="{/selectedRequest/status}" editable="false"/>
+                                            <Label text="Division:*" required="true"/>
+                                            <Input id="divisionInput" value="{/selectedRequest/division}" editable="{/editable}" required="true"/>
+                                            <Label text="Sales Group:*" required="true"/>
+                                            <Input id="salesGroupInput" value="{/selectedRequest/salesGroup}" editable="{/editable}" required="true"/>
+                                            <Label text="DCNR% from:*" required="true"/>
+                                            <Input id="dcnrFromInput" value="{/selectedRequest/dcnrForm}" editable="{/editable}" type="Number" required="true"/>
+                                            <Label text="DCNR% to:*" required="true"/>
+                                            <Input id="dcnrToInput" value="{/selectedRequest/dcnrTo}" editable="{/editable}" type="Number" required="true"/>
+                                            <Label text="Standard Reason:*" required="true"/>
+                                            <Input id="standardReasonInput" value="{/selectedRequest/standardReason}" editable="{/editable}" required="true"/>
+                                            <!-- <Label text="Comment by Creator:*" required="true"/>
+                                            <TextArea id="creatorCommentsInput" value="{/selectedRequest/creatorComments}" editable="{/editable}" rows="3" required="true"/> -->
+                                        <!-- </form:SimpleForm>
+                                        <form:SimpleForm id="divisionForm" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                                            adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"
+                                            singleContainerFullSize="false"> -->
+                                            <!-- <Label text="Role"/>
+                                            <Text text="Approver"/>
+                                            <Label text="Approver"/>
+                                            <Input value="{/selectedRequest/approver1}" editable="{/editable}"/>
+                                            <Label text="Role"/>
+                                            <Text text="Alternate Approver"/>
+                                            <Label text="Alternate Approver"/>
+                                            <Input value="{/selectedRequest/altApprover1}" editable="{/editable}"/>
+                                            <Label text="Role"/>
+                                            <Text text="Approver"/>
+                                            <Label text="Approver"/>
+                                            <Input value="{/selectedRequest/approver2}" editable="{/editable}"/>
+                                            <Label text="Role"/>
+                                            <Text text="Alternate Approver"/>
+                                            <Label text="Alternate Approver"/>
+                                            <Input value="{/selectedRequest/altApprover2}" editable="{/editable}"/>
+                                            <Label text="Role"/>
+                                            <Text text="Approver"/>
+                                            <Label text="Approver"/>
+                                            <Input value="{/selectedRequest/approver3}" editable="{/editable}"/>
+                                            <Label text="Role"/>
+                                            <Text text="Alternate Approver"/>
+                                            <Label text="Alternate Approver"/>
+                                            <Input value="{/selectedRequest/altApprover3}" editable="{/editable}"/> -->
+                                        </form:SimpleForm>
+                                    </Panel>
+                                </IconTabFilter>
+                                <IconTabFilter text="Attachments" key="attachments" icon="sap-icon://attachment">
+                                    <List id="attachmentList" items="{/selectedRequest/uploads}" mode="Delete" delete="onUploadDelete">
+                                        <items>
+                                            <StandardListItem 
+                                                title="{fileName}"
+                                                description="{fileType}"
+                                                info="{fileSize}"
+                                                type="Active"
+                                                press="onAttachmentPress"
+                                                icon="{= ${fileType} === 'pdf' ? 'sap-icon://pdf-attachment' : ${fileType} === 'jpg' || ${fileType} === 'png' ? 'sap-icon://picture' : 'sap-icon://document-text'}" />
+                                        </items>
+                                    </List>
+                                </IconTabFilter>
+                                <!-- <IconTabFilter text="Notes" key="notes" icon="sap-icon://notes">
+                                    <Panel headerText="Notes" expandable="true" expanded="true">
+                                        <form:SimpleForm id="notesForm" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                                            adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"
+                                            singleContainerFullSize="false">
+                                            <Label text="Creator Notes"/>
+                                            <TextArea value="{/selectedRequest/creatorComments}" editable="{/editable}" rows="3"/>
+                                            <Label text="Approver 1 Comments"/>
+                                            <TextArea value="{/selectedRequest/approver1Comments}" editable="{/editable}" rows="3"/>
+                                            <Label text="Alternate Approver 1 Comments"/>
+                                            <TextArea value="{/selectedRequest/altApprover1Comments}" editable="{/editable}" rows="3"/>
+                                            <Label text="Approver 2 Comments"/>
+                                            <TextArea value="{/selectedRequest/approver2Comments}" editable="{/editable}" rows="3"/>
+                                            <Label text="Alternate Approver 2 Comments"/>
+                                            <TextArea value="{/selectedRequest/altApprover2Comments}" editable="{/editable}" rows="3"/>
+                                            <Label text="Approver 3 Comments"/>
+                                            <TextArea value="{/selectedRequest/approver3Comments}" editable="{/editable}" rows="3"/>
+                                            <Label text="Alternate Approver 3 Comments"/>
+                                            <TextArea value="{/selectedRequest/altApprover3Comments}" editable="{/editable}" rows="3"/>
+                                        </form:SimpleForm>
+                                    </Panel>
+                                </IconTabFilter> -->
+                                <!-- <IconTabFilter text="People" key="people" icon="sap-icon://group">
+                                    <Panel headerText="People" expandable="true" expanded="true">
+                                        <form:SimpleForm id="peopleForm" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                                            adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"
+                                            singleContainerFullSize="false">
+                                            <Label text="Created By"/>
+                                            <Input value="{/selectedRequest/createdBy}" editable="{/editable}"/>
+                                            <Label text="Approver 1"/>
+                                            <Input value="{/selectedRequest/approver1}" editable="{/editable}"/>
+                                            <Label text="Alternate Approver 1"/>
+                                            <Input value="{/selectedRequest/altApprover1}" editable="{/editable}"/>
+                                            <Label text="Approver 2"/>
+                                            <Input value="{/selectedRequest/approver2}" editable="{/editable}"/>
+                                            <Label text="Alternate Approver 2"/>
+                                            <Input value="{/selectedRequest/altApprover2}" editable="{/editable}"/>
+                                            <Label text="Approver 3"/>
+                                            <Input value="{/selectedRequest/approver3}" editable="{/editable}"/>
+                                            <Label text="Alternate Approver 3"/>
+                                            <Input value="{/selectedRequest/altApprover3}" editable="{/editable}"/>
+                                        </form:SimpleForm>
+                                    </Panel>
+                                </IconTabFilter> -->
+                                <IconTabFilter text="Application Status" key="applicationStatus" icon="sap-icon://history">
+                                    <Panel headerText="Application Status" expandable="true" expanded="true">
+                                        <suite:Timeline id="applicationTimeline"
+                                            axisOrientation="Horizontal"
+                                            enableDoubleSided="false"
+                                            lazyLoading="true"
+                                            textHeight="automatic">
+                                            <suite:TimelineItem
+                                                dateTime="{Date}"
+                                                title="{Title}"
+                                                text="{Text}"
+                                                userName="{UserName}"
+                                                status="{= ${Comment} === 'Approved' ? 'Success' : ${Comment} === 'Rejected' ? 'Error' : 'Information'}"/>
+                                        </suite:Timeline>
+                                    </Panel>
+                                </IconTabFilter>
+                                <IconTabFilter text="Approver 1" key="approver1" icon="sap-icon://employee-approvals">
+                                    <Panel headerText="Approver 1" expandable="true" expanded="true">
+                                        <form:SimpleForm id="approver1Form" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12"
+                                            adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"
+                                            singleContainerFullSize="false">
+                                            <Label text="Approver 1:"/>
+                                            <Input value="{/selectedRequest/approver1}" editable="{/editable}"/>
+                                            <!-- <Label text="Comments:"/> -->
+                                            <TextArea value="{/selectedRequest/approver1}" editable="{/editable}" rows="3" width="100%"/>
+                                            <Label text="Alternate Approver 1:"/>
+                                            <Input value="{/selectedRequest/altApprover1}" editable="{/editable}"/>
+                                            <!-- <Label text="Comments:"/> -->
+                                            <TextArea value="{/selectedRequest/altApprover1}" editable="{/editable}" rows="3" width="100%"/>
+                                        </form:SimpleForm>
+                                    </Panel>
+                                </IconTabFilter>
+                                <IconTabFilter text="Approver 2" key="approver2" icon="sap-icon://employee-approvals">
+                                    <Panel headerText="Approver 2" expandable="true" expanded="true">
+                                        <form:SimpleForm id="approver2Form" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12"
+                                            adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"
+                                            singleContainerFullSize="false">
+                                            <Label text="Approver 2:"/>
+                                            <Input value="{/selectedRequest/approver2}" editable="{/editable}"/>
+                                            <!-- <Label text="Comments:"/> -->
+                                            <TextArea value="{/selectedRequest/approver2}" editable="{/editable}" rows="3" width="100%"/>
+                                            <Label text="Alternate Approver 2:"/>
+                                            <Input value="{/selectedRequest/altApprover2}" editable="{/editable}"/>
+                                            <!-- <Label text="Comments:"/> -->
+                                            <TextArea value="{/selectedRequest/altApprover2}" editable="{/editable}" rows="3" width="100%"/>
+                                        </form:SimpleForm>
+                                    </Panel>
+                                </IconTabFilter>
+                                <IconTabFilter text="Approver 3" key="approver3" icon="sap-icon://employee-approvals">
+                                    <Panel headerText="Approver 3" expandable="true" expanded="true">
+                                        <form:SimpleForm id="approver3Form" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12"
+                                            adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"
+                                            singleContainerFullSize="false">
+                                            <Label text="Approver 3:"/>
+                                            <Input value="{/selectedRequest/approver3}" editable="{/editable}"/>
+                                            <!-- <Label text="Comments:"/> -->
+                                            <TextArea value="{/selectedRequest/approver3}" editable="{/editable}" rows="3" width="100%"/>
+                                            <Label text="Alternate Approver 3:"/>
+                                            <Input value="{/selectedRequest/altApprover3}" editable="{/editable}"/>
+                                            <!-- <Label text="Comments:"/> -->
+                                            <TextArea value="{/selectedRequest/altApprover3}" editable="{/editable}" rows="3" width="100%"/>
+                                        </form:SimpleForm>
+                                    </Panel>
+                                </IconTabFilter>
+                                <IconTabFilter text="Account Admin" key="accountAdmin" icon="sap-icon://account">
+                                    <Panel headerText="Account Admin" expandable="true" expanded="true">
+                                        <form:SimpleForm id="accountAdminForm" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                                            adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"
+                                            singleContainerFullSize="false">
+                                            <Label text="Account Admin:"/>
+                                            <Input value="{/selectedRequest/accountAdmin}" editable="{/editable}"/>
+                                            <Label text="Comments:"/>
+                                            <TextArea value="{/selectedRequest/accountAdminComments}" editable="{/editable}" rows="3"/>
+                                            <Label text="Alternate Account Admin:"/>
+                                            <Input value="{/selectedRequest/altAccountAdmin}" editable="{/editable}"/>
+                                            <Label text="Comments:"/>
+                                            <TextArea value="{/selectedRequest/altAccountAdminComments}" editable="{/editable}" rows="3"/>
+                                        </form:SimpleForm>
+                                    </Panel>
+                                </IconTabFilter>
+                                <IconTabFilter text="Activity Log" key="activityLog" icon="sap-icon://action">
+                                    <Panel headerText="Activity Log" expandable="true" expanded="true">
+                                        <form:SimpleForm id="activityLogForm" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                                            adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"
+                                            singleContainerFullSize="false">
+                                            <Label text="Activity Action:"/>
+                                            <Input value="{/selectedRequest/activityAction}" editable="false"/>
+                                            <Label text="Section:"/>
+                                            <Input value="{/selectedRequest/activitySection}" editable="false"/>
+                                            <Label text="Activity Date:"/>
+                                            <Input value="{/selectedRequest/activityDate}" editable="false"/>
+                                            <Label text="Updated Time:"/>
+                                            <Input value="{/selectedRequest/updatedTime}" editable="false"/>
+                                            <Label text="Preferred Key:"/>
+                                            <Input value="{/selectedRequest/preferredKey}" editable="false"/>
+                                            <Label text="Changes:"/>
+                                            <Input value="{/selectedRequest/changes}" editable="false"/>
+                                        </form:SimpleForm>
+                                    </Panel>
+                                </IconTabFilter>
+                            </items>
+                        </IconTabBar>
+                    </VBox>
+                </content>
+                <beginButton>
+                    <Button text="Submit" press="onSubmitPriceReq" type="Emphasized" visible="{/editable}"/>
+                </beginButton>
+                <endButton>
+                    <Button text="Close" press="onClosePriceReq" type="Reject"/>
+                </endButton>
+            </Dialog>
+
+            <!-- Filter Dialog -->
+            <Dialog id="filterDialog" title="Filter" stretch="false" contentWidth="400px">
+                <content>
+                    <VBox>
+                        <form:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                            adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1">
+                            <Label text="Created By"/>
+                            <ComboBox items="{/filterOptions/createdBy}" selectionChange="onFilterChange" 
+                                      selectedKey="{/filter/createdBy}">
+                                <core:Item key="{key}" text="{text}"/>
+                            </ComboBox>
+                            <Label text="Created On"/>
+                            <ComboBox items="{/filterOptions/createdOn}" selectionChange="onFilterChange" 
+                                      selectedKey="{/filter/createdOn}">
+                                <core:Item key="{key}" text="{text}"/>
+                            </ComboBox>
+                            <Label text="Status"/>
+                            <ComboBox items="{/filterOptions/status}" selectionChange="onFilterChange" 
+                                      selectedKey="{/filter/status}">
+                                <core:Item key="{key}" text="{text}"/>
+                            </ComboBox>
+                            <Label text="Reference No."/>
+                            <ComboBox items="{/filterOptions/referenceNo}" selectionChange="onFilterChange" 
+                                      selectedKey="{/filter/referenceNo}">
+                                <core:Item key="{key}" text="{text}"/>
+                            </ComboBox>
+                            <Label text="Level 1 Approver"/>
+                            <ComboBox items="{/filterOptions/approver1}" selectionChange="onFilterChange" 
+                                      selectedKey="{/filter/approver1}">
+                                <core:Item key="{key}" text="{text}"/>
+                            </ComboBox>
+                            <Label text="Level 2 Approver"/>
+                            <ComboBox items="{/filterOptions/approver2}" selectionChange="onFilterChange" 
+                                      selectedKey="{/filter/approver2}">
+                                <core:Item key="{key}" text="{text}"/>
+                            </ComboBox>
+                            <Label text="Level 3 Approver"/>
+                            <ComboBox items="{/filterOptions/approver3}" selectionChange="onFilterChange" 
+                                      selectedKey="{/filter/approver3}">
+                                <core:Item key="{key}" text="{text}"/>
+                            </ComboBox>
+                        </form:SimpleForm>
+                    </VBox>
+                </content>
+                <beginButton>
+                    <Button text="Apply" press="onApplyFilter" type="Emphasized"/>
+                </beginButton>
+                <endButton>
+                    <Button text="Cancel" press="onCancelFilter"/>
+                </endButton>
+            </Dialog>
+
+            <!-- Upload Dialog -->
+            <Dialog id="uploadDialog" title="Upload File" stretch="false" contentWidth="400px">
+                <content>
+                    <VBox class="sapUiSmallMargin">
+                        <Text text="Attachments ({/attachmentCount})" class="sapUiSmallMarginBottom" />
+                        <HBox>
+                            <u:FileUploader
+                                id="fileUploader"
+                                name="myFileUpload"
+                                uploadUrl="/upload"
+                                tooltip="Upload your file"
+                                uploadComplete="handleUploadComplete"
+                                change="handleValueChange"
+                                typeMissmatch="handleTypeMissmatch"
+                                style="Emphasized"
+                                fileType="pdf,jpg,png,doc,docx,xls,xlsx"
+                                placeholder="Choose a file">
+                                <u:parameters>
+                                    <u:FileUploaderParameter name="Accept-CH" value="Viewport-Width"/>
+                                    <u:FileUploaderParameter name="Accept-CH" value="Width"/>
+                                    <u:FileUploaderParameter name="Accept-CH-Lifetime" value="86400"/>
+                                </u:parameters>
+                            </u:FileUploader>
+                            <Button text="Upload" press="handleUploadPress" type="Emphasized" tooltip="Upload File"/>
+                        </HBox>
+                        <List id="attachmentList2" items="{/uploads}" mode="Delete" delete="onUploadDelete">
+                            <items>
+                                <StandardListItem 
+                                    title="{fileName}"
+                                    description="{fileType}"
+                                    info="{fileSize}"
+                                    type="Active"
+                                    press="onAttachmentPress"
+                                    icon="{= ${fileType} === 'pdf' ? 'sap-icon://pdf-attachment' : ${fileType} === 'jpg' || ${fileType} === 'png' ? 'sap-icon://picture' : 'sap-icon://document-text'}" />
+                            </items>
+                        </List>
+                    </VBox>
+                </content>
+                <beginButton>
+                    <Button text="Create Request" press="onCreateRequestFromUpload" type="Emphasized"/>
+                </beginButton>
+                <endButton>
+                    <Button text="Close" press="onCloseUpload" type="Reject"/>
+                </endButton>
+            </Dialog>
+        </VBox>
+    </Panel>
+</mvc:View>
+
+
+
+
+
+
+
+
+UPDATE DATA 3
+<mvc:View
+    controllerName="com.tableentry.tablestructure.controller.Table_Entry"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.f"
+    xmlns:u="sap.ui.unified"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:sf="sap.ui.comp.smartfield"
+    xmlns:layout="sap.ui.layout"
+    xmlns:suite="sap.suite.ui.commons"
+    displayBlock="true"
+    class="dashboardView">
+
+    <Panel class="dashboardPanel" expandable="false">
+        <headerToolbar>
+            <Toolbar class="headerToolbar">
+                <Image src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQN4zI47qvXfN00zC2FBC8aRP0kB6wtIcWTRQ" 
                        width="110px" height="50px" class="logo"/>
                 <Title text="Pidilite Price Requisition" class="headerTitle" />
             </Toolbar>
