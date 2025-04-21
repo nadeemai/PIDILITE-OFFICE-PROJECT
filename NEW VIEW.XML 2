@@ -7,7 +7,7 @@
     xmlns:u="sap.ui.unified"
     xmlns:form="sap.ui.layout.form"
     xmlns:sf="sap.ui.comp.smartfield"
-    xmlns:layout="sap.ui.layout"
+    xmlns:layout="sap.ui.layout" 
     xmlns:suite="sap.suite.ui.commons"
     displayBlock="true"
     class="dashboardView">
